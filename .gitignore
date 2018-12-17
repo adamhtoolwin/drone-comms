@@ -1,2 +1,13 @@
 # Ignore idea files
 .idea/
+
+# Ignore for web-ssh
+web-ssh/.idea/
+web-ssh/tmp/
+web-ssh/storage/
+web-ssh/config/master.key
+web-ssh/.byebug_history
+web-ssh/log/
+web-ssh/node_modules/
+web-ssh/yarn-error.log
+web-ssh/public/assets
