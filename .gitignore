@@ -2,6 +2,7 @@
 .idea/
 
 # Ignore for web-ssh
+web-ssh/.bundler_config
 web-ssh/.idea/
 web-ssh/tmp/
 web-ssh/storage/
