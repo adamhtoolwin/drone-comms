@@ -33,5 +33,21 @@ print "System status: %s" % vehicle.system_status.state
 print "Mode: %s" % vehicle.mode.name    # settable
 print "Armed: %s" % vehicle.armed    # settable
 
+print("")
+raw_input("Press Enter to continue...")
+
+# Arming the vehicle
+print("Arming the vehicle")
+print "Armed: %s" % vehicle.armed    
+vehicle.armed = True
+
+print("")
+raw_input("Press Enter to continue...")
+
+# Disarming the vehicle
+print("Disarming the vehicle")
+print "Armed: %s" % vehicle.armed    # settable
+vehicle.armed = False
+
 # Close vehicle object before exiting script
 vehicle.close()
