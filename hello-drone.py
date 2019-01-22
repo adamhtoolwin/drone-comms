@@ -1,7 +1,9 @@
 # Import DroneKit-Python
 from dronekit import connect, VehicleMode
+import sys
 
-connection_string = 'tcp:127.0.0.1:5760'
+# connection_string = 'tcp:127.0.0.1:5760'
+connection_string = str(sys.argv[1])
 
 # Connect to the Vehicle.
 print("Connecting to vehicle on: %s" % (connection_string,))
