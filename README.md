@@ -5,8 +5,8 @@ A testbed for drone-server communications
 ### Dronekit
 home location - 14.079140, 100.609484
 
-Run ```dronekit-sitl copter --home=14.079140, 100.609484```
-This runs the SITL sim on port 5760.
+Run ```dronekit-sitl copter --home=14.079140,100.609484,584,353```
+This runs the SITL sim on port 5760 with the specified home location(lat,lng,alt,yaw)
 
 ### Ardupilot
 TODO
