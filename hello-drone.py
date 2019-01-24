@@ -8,8 +8,8 @@ parser.add_argument("connection", help="The connection string to be used, i.e. t
 parser.add_argument("--airspeed", help="The default airspeed of the drone")
 args = parser.parse_args()
 
+# sample connection_string
 # connection_string = 'tcp:127.0.0.1:5760'
-# connection_string = str(sys.argv[1])
 
 # Connect to the Vehicle.
 print("Connecting to vehicle on: %s" % (args.connection,))
@@ -91,13 +91,15 @@ def arm_and_takeoff(aTargetAltitude):
 
 arm_and_takeoff(20)
 
-# print("")
-# raw_input("Press Enter to continue...")
+time.sleep(5)
+
+print("Returning to land")
+vehicle.mode = VehicleMode("RTL")
 
 # # Disarming the vehicle
 # print("Disarming the vehicle")
 # print "Armed: %s" % vehicle.armed    # settable
 # vehicle.armed = False
 
-# # Close vehicle object before exiting script
-# vehicle.close()
+# Close vehicle object before exiting script
+vehicle.close()
