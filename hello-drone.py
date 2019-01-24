@@ -5,6 +5,7 @@ import argparse
 # Parsing args
 parser = argparse.ArgumentParser()
 parser.add_argument("connection", help="The connection string to be used, i.e. the Pixhawk")
+parser.add_argument("--airspeed", help="The default airspeed of the drone")
 args = parser.parse_args()
 
 # connection_string = 'tcp:127.0.0.1:5760'
@@ -13,6 +14,14 @@ args = parser.parse_args()
 # Connect to the Vehicle.
 print("Connecting to vehicle on: %s" % (args.connection,))
 vehicle = connect(args.connection, wait_ready=True)
+
+# Set the default vehicle airspeed
+if args.airspeed:
+    vehicle.airspeed = int(args.airspeed)
+else:
+    vehicle.airspeed = 3
+print("Setting the default airspeed to %s" % vehicle.airspeed)
+
 
 # Get some vehicle attributes (state)
 print "Autopilot Firmware version: %s" % vehicle.version
@@ -45,9 +54,6 @@ raw_input("Press Enter to continue...")
 print("Arming the vehicle")
 print "Armed: %s" % vehicle.armed    
 vehicle.armed = True
-
-# Set the default vehicle airspeed
-vehicle.airspeed = 3
 
 def arm_and_takeoff(aTargetAltitude):
     """
