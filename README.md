@@ -34,7 +34,7 @@ For example: ```python hello-drone.py tcp:127.0.0.1:5760``` will connect to a SI
 
 ```mavproxy.py --master tcp:127.0.0.1:5760 --out 127.0.0.1:14550 --out 127.0.0.1:14551 --aircraft S500```
 
-Use mavproxy to forward mavlink stream from 5760 to 14550 and 14551.
+Use mavproxy to forward mavlink stream from 5760 to 14550 and 14551. In this case, the ```connection_string``` in the CLI args would be ```udp:127.0.0.1:14551```.
 
 **NOTE:** These streams are UDP only.
 
