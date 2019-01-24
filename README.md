@@ -25,11 +25,14 @@ Run ```python hello-drone.py --connection_string--``` to get a basic status mess
 
 The ```connection_string``` can be USB, serial or network.
 
-For example: ```python hello-drone.py tcp:127.0.0.1:5760``` will connect to a SITL simulator running at port TCP 5760 on the local machine.
+#### CLI Arguments
+1. connection_string
+
+For example: ```python hello-drone.py tcp:127.0.0.1:5760``` will connect to a SITL simulator running at port TCP 5760 on the local machine. 
 
 #### For use with GCS (Mission Planner) **and** the script
 
-```mavproxy.py --master tcp:127.0.0.1:5760 --out 127.0.0.1:14550 --out 127.0.0.1:14551```
+```mavproxy.py --master tcp:127.0.0.1:5760 --out 127.0.0.1:14550 --out 127.0.0.1:14551 --aircraft S500```
 
 Use mavproxy to forward mavlink stream from 5760 to 14550 and 14551.
 
