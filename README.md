@@ -9,6 +9,11 @@ Run ```dronekit-sitl copter --home=14.079140,100.609484,584,353```
 
 This runs the SITL sim on port 5760 with the specified home location(lat,lng,alt,yaw).
 
+**(IMPORTANT)** There is a version conflict for pymavlink with the dronekit sim (**2.0.6**) and mavproxy (**2.3.4**). A workaround is to
+
+1. Install the reqs for dronekit sim - ```pip install dronekit-sitl```
+2. Install the reqs for mavproxy - ```pip install MAVProxy```
+
 ### Ardupilot
 TODO
 
