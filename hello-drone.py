@@ -19,13 +19,29 @@ vehicle = connect(args.connection, wait_ready=True)
 if args.airspeed:
     vehicle.airspeed = int(args.airspeed)
 else:
-    vehicle.airspeed = 3
+    vehicle.groundspeed = 3 ####TODO
 print("Setting the default airspeed to %s" % vehicle.airspeed)
+
+# Download missions from Pixhawk
+print("Downloading missions")
+cmds = vehicle.commands
+cmds.download()
+cmds.wait_ready()
+
+# Save the vehicle commands to a list
+missionlist=[]
+for cmd in cmds:
+    missionlist.append(cmd)
+
+print("Mission List: %s" % missionlist)
+
+print("")
 
 
 # Get some vehicle attributes (state)
 print "Autopilot Firmware version: %s" % vehicle.version
 print "Autopilot capabilities (supports ftp): %s" % vehicle.capabilities.ftp
+print ("Home Location: %s" % vehicle.home_location)
 print "Global Location: %s" % vehicle.location.global_frame
 print "Global Location (relative altitude): %s" % vehicle.location.global_relative_frame
 print "Local Location: %s" % vehicle.location.local_frame    #NED
@@ -51,9 +67,9 @@ print("")
 raw_input("Press Enter to continue...")
 
 # Arming the vehicle
-print("Arming the vehicle")
-print "Armed: %s" % vehicle.armed    
-vehicle.armed = True
+# print("Arming the vehicle")
+# print "Armed: %s" % vehicle.armed    
+# vehicle.armed = True
 
 def arm_and_takeoff(aTargetAltitude):
     """
