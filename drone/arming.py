@@ -65,6 +65,12 @@ print "Armed: %s" % vehicle.armed    # settable
 
 print("")
 
+# Change the mode to STABILIZE
+if vehicle.mode.name != 'STABILIZE':
+    print("Changing mode to STABILIZE")
+    vehicle.mode = VehicleMode("STABILIZE")
+
+print("")
 # Arming the vehicle
 print("Arming the vehicle")  
 vehicle.armed = True
