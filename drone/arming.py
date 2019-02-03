@@ -66,16 +66,16 @@ print "Armed: %s" % vehicle.armed    # settable
 print("")
 
 # Arming the vehicle
-print("Arming the vehicle")
-print "Armed: %s" % vehicle.armed    
+print("Arming the vehicle")  
 vehicle.armed = True
+print "Armed: %s" % vehicle.armed  
 
 time.sleep(10)
 
 # Disarming the vehicle
 print("Disarming the vehicle")
-print "Armed: %s" % vehicle.armed    # settable
 vehicle.armed = False
+print "Armed: %s" % vehicle.armed    # settable
 
 # Close vehicle object before exiting script
 vehicle.close()
