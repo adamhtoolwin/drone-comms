@@ -1,0 +1,4 @@
+### Requirements for dronekit/scripts
+dronekit
+MAVProxy
+lxml
