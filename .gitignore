@@ -1,6 +1,9 @@
 # Ignore idea files
 .idea/
 
+# Ignore vscode
+.vscode/
+
 # Ignore for web-ssh
 web-ssh/.bundler_config
 web-ssh/.idea/
