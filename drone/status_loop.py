@@ -46,9 +46,25 @@ while True:
     print "System status: %s" % vehicle.system_status.state
     print "Mode: %s" % vehicle.mode.name    # settable
     print "Armed: %s" % vehicle.armed    # settable
-    
+
+    nav_logs = {
+    "gps_latitude": vehicle.location.global_relative_frame.lat,
+    "gps_longitude": vehicle.location.global_relative_frame.lon,
+    "altitude": vehicle.location.global_relative_frame.alt,
+    "drone_id": 1,
+    }
+
     print("")
-    
+    print("Posting with this navlog")
+    print(nav_logs)
+    print("")
+
+    print("Posting navlogs")
+
+    nav_post = requests.post("http://3.0.21.193/api/v1/nav_logs", data=nav_logs)
+
+    print("")
+
     # Hold for 5 seconds
     print("Waiting for 5 seconds")
     time.sleep(5)
