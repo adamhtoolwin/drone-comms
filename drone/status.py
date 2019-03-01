@@ -69,6 +69,11 @@ nav_logs = {
     "drone_id": 1,
 }
 
+print("")
+print("Posting with this navlog")
+print(nav_logs)
+print("")
+
 status = {
     # "firmware": vehicle.version,
     # "home_location": vehicle.home_location,
@@ -113,11 +118,14 @@ status = {
 }
 
 status_json = json.dumps(status)
-nav_json = json.dumps(nav_json)
 
-nav_post = requests.post("http://3.0.21.193/api/v1/nav_logs", data=nav_json)
+print("")
+print("Posting navlogs")
+
+nav_post = requests.post("http://3.0.21.193/api/v1/nav_logs", data=nav_logs)
 
 print("")
 
 # Close vehicle object before exiting script
+print("Closing vehicle")
 vehicle.close()
