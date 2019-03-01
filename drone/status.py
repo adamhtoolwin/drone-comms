@@ -1,11 +1,13 @@
 """
 This script retrieves the vehicle's status then encodes it as JSON and POSTs it to the web app
+One time running script.
 """
 from dronekit import connect, VehicleMode
 import time
 import argparse
 import json
 import requests
+import datetime
 
 # Parsing args
 parser = argparse.ArgumentParser()
@@ -59,34 +61,61 @@ print "Armed: %s" % vehicle.armed    # settable
 
 # Now in JSON
 ## TODO need to property of non json serializable
+
+nav_logs = {
+    "gps_latitude": vehicle.location.global_relative_frame.lat,
+    "gps_longitude": vehicle.location.global_relative_frame.lon,
+    "altitude": vehicle.location.global_relative_frame.alt,
+    "drone_id": 1,
+}
+
 status = {
     # "firmware": vehicle.version,
     # "home_location": vehicle.home_location,
-    # "global_location": vehicle.location.global_frame,
-    # "global_location_relative_altitude": vehicle.location.global_relative_frame,
-    # "altitude": vehicle.attitude,
+
+    # "home_location": {
+    #     "latitude": vehicle.home_location.lat,
+    #     "longitude": vehicle.home_location.lon,
+    #     "altiude": vehicle.home_location.alt,
+    # },
+    # "global_location": {
+    #     "latitude": vehicle.location.global_frame.lat,
+    #     "longitude": vehicle.location.global_frame.lon,
+    #     "altiude": vehicle.location.global_frame.alt,
+    # },
+    # "global_location_relative": {
+    #     "latitude": vehicle.location.global_relative_frame.lat,
+    #     "longitude": vehicle.location.global_relative_frame.lon,
+    #     "altiude": vehicle.location.global_relative_frame.alt,
+    # },
+    # "attitude": {
+    #     "pitch": vehicle.attitude.pitch,
+    #     "roll": vehicle.attitude.roll,
+    #     "yaw": vehicle.attitude.yaw,
+    # },
     # "velocity": vehicle.velocity,
     # "gps": vehicle.gps_0,
     # "groundspeed": vehicle.groundspeed,
     # "airspeed": vehicle.airspeed,
     # "battery": vehicle.battery,
-    "battery": {
-        "battery_voltage": vehicle.battery.voltage,
-        "battery_current": vehicle.battery.current,
-        "battery_level": vehicle.battery.level,
-    },
-    "ekf_ok": vehicle.ekf_ok,
-    "last_heartbeat": vehicle.last_heartbeat,
-    "heading": vehicle.heading,
-    "is_armable": vehicle.is_armable,
-    "system_status": vehicle.system_status.state,
+    # "battery": {
+    #     "battery_voltage": vehicle.battery.voltage,
+    #     "battery_current": vehicle.battery.current,
+    #     "battery_level": vehicle.battery.level,
+    # },
+    # "ekf_ok": vehicle.ekf_ok,
+    # "last_heartbeat": vehicle.last_heartbeat,
+    # "heading": vehicle.heading,
+    # "is_armable": vehicle.is_armable,
+    # "system_status": vehicle.system_status.state,
     "mode": vehicle.mode.name,
     "armed": vehicle.armed
 }
 
 status_json = json.dumps(status)
+nav_json = json.dumps(nav_json)
 
-r = requests.post("http://3.0.21.193/nav_logs", data=status_json)
+nav_post = requests.post("http://3.0.21.193/api/v1/nav_logs", data=nav_json)
 
 print("")
 
