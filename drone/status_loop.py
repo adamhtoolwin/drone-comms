@@ -51,7 +51,7 @@ while True:
     "gps_latitude": vehicle.location.global_relative_frame.lat,
     "gps_longitude": vehicle.location.global_relative_frame.lon,
     "altitude": vehicle.location.global_relative_frame.alt,
-    "drone_id": 1,
+    "drone_id": 5,
     }
 
     print("")
