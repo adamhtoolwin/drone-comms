@@ -12,7 +12,7 @@ user = 'pi'
 password = 'sfsfsfsf'
 
 puts "Starting connection to #{host} with user #{user}"
-Net::SSH.start(host, user, password: password) do |ssh|
+Net::SSH.start(host, user, port:2210, password: password) do |ssh|
     
       channel = ssh.open_channel do |ch|
         # For now using usb by serial - testing purposes
