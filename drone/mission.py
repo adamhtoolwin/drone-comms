@@ -46,7 +46,13 @@ parser.add_argument("connection", help="The connection string to be used, i.e. t
 parser.add_argument("latitude", help="The latitude of the destination")
 parser.add_argument("longitude", help="The longitude of the destination")
 parser.add_argument("--groundspeed", help="The default groundspeed of the drone")
+parser.add_argument("--drone_id", help="The ID of the drone, default is 1 i.e. the real drone; put 2 for simulator")
 args = parser.parse_args()
+
+if args.drone_id:
+    drone_id = args.drone_id
+else:
+    drone_id = 1
 
 dest_latitude = float(args.latitude)
 dest_longitude = float(args.longitude)
@@ -118,16 +124,16 @@ print("")
 
 # Preset command
 # cmd1 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0,vehicle.location.global_relative_frame.lat,vehicle.location.global_relative_frame.lon, 20)
-cmd2 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, dest_latitude, dest_longitude, 20)
-cmd3 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0,vehicle.home_location.lat, vehicle.home_location.lon, 20)
-cmd4 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_RETURN_TO_LAUNCH, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-cmd5 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_MISSION_START, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+cmd1 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, dest_latitude, dest_longitude, 20)
+cmd2 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0,vehicle.home_location.lat, vehicle.home_location.lon, 20)
+cmd3 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_RETURN_TO_LAUNCH, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+cmd4 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_MISSION_START, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
 # Add and send commands
 # cmds.add(cmd1)
+cmds.add(cmd1)
 cmds.add(cmd2)
 cmds.add(cmd3)
-cmds.add(cmd4)
 print("Uploading missions")
 cmds.upload()
 
@@ -141,7 +147,7 @@ while True:
         "gps_latitude": vehicle.location.global_relative_frame.lat,
         "gps_longitude": vehicle.location.global_relative_frame.lon,
         "altitude": vehicle.location.global_relative_frame.alt,
-        "drone_id": 2,
+        "drone_id": drone_id,
     }
 
     print("")
