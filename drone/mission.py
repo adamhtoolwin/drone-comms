@@ -135,23 +135,33 @@ print("Destination longitude: %s" % dest_longitude)
 print("")
 
 # Preset command
-# cmd1 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0,vehicle.location.global_relative_frame.lat,vehicle.location.global_relative_frame.lon, 20)
 cmd1 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, dest_latitude, dest_longitude, 20)
 cmd2 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0,vehicle.home_location.lat, vehicle.home_location.lon, 20)
 cmd3 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_RETURN_TO_LAUNCH, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 cmd4 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_MISSION_START, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
 # Add and send commands
-# cmds.add(cmd1)
 cmds.add(cmd1)
 cmds.add(cmd2)
 cmds.add(cmd3)
 print("Uploading missions")
 cmds.upload()
 
+# POST initial location to server
+init_nav = {
+    "gps_latitude": vehicle.location.global_relative_frame.lat,
+    "gps_longitude": vehicle.location.global_relative_frame.lon,
+    "altitude": vehicle.location.global_relative_frame.alt,
+    "drone_id": drone_id,
+}
+
+init_nav_post = requests.post(server_address, data=init_nav)
+
 arm_and_takeoff(20)
 
 time.sleep(2)
+
+# Change mode to AUTO to execute mission plan
 vehicle.mode = VehicleMode("AUTO")
 
 while True:
@@ -177,10 +187,15 @@ while True:
     print("Waiting for 5 seconds")
     time.sleep(5)
 
+    # break if disarmed
     if vehicle.armed == False:
         break
 
 time.sleep(2)
+
+end_mission = {
+
+}
 
 # Close vehicle object before exiting script
 vehicle.close()
