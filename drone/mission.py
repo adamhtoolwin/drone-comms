@@ -86,6 +86,8 @@ cmds.upload()
 print("")
 
 cmds = vehicle.commands
+cmds.download()
+cmds.wait_ready()
 vehicle.mode = VehicleMode("STABILIZE")
 time.sleep(1)
 
