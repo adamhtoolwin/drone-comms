@@ -46,6 +46,7 @@ parser.add_argument("connection", help="The connection string to be used, i.e. t
 parser.add_argument("latitude", help="The latitude of the destination")
 parser.add_argument("longitude", help="The longitude of the destination")
 parser.add_argument("--groundspeed", help="The default groundspeed of the drone")
+parser.add_argument("--server", help="The address of the REST server")
 parser.add_argument("--drone_id", help="The ID of the drone, default is 1 i.e. the real drone; put 2 for simulator")
 args = parser.parse_args()
 
@@ -56,6 +57,14 @@ else:
 
 dest_latitude = float(args.latitude)
 dest_longitude = float(args.longitude)
+
+if args.server:
+    # for dev - specify address
+    server_address = args.server
+else:
+    # for prod
+    server_address = "https://teamdronex.com/api/v1/nav_logs"
+
 
 # Connect to the Vehicle.
 print("Connecting to vehicle on: %s" % (args.connection,))
@@ -85,6 +94,7 @@ cmds.clear()
 cmds.upload()
 print("")
 
+# Need to re download missions before getting home location
 cmds = vehicle.commands
 cmds.download()
 cmds.wait_ready()
@@ -159,7 +169,7 @@ while True:
 
     print("Posting navlogs")
 
-    nav_post = requests.post("http://localhost:3000/api/v1/nav_logs", data=nav_logs)
+    nav_post = requests.post(server_address, data=nav_logs)
 
     print("")
 
