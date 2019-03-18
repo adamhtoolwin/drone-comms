@@ -2,3 +2,5 @@
 dronekit
 MAVProxy
 lxml
+dronekit-sitl
+pymavlink
