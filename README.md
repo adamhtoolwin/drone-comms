@@ -20,22 +20,33 @@ TODO
 
 ## Scripts
 
-### hello-drone
-
 **(IMPORTANT)** Requirements: Python 2.7
 
-Pip packages: dronekit, dronekit-sitl(optional)
+Pip packages: dronekit, dronekit-sitl(optional), MAVProxy
 
+### hello-drone.py
 Run ```python hello-drone.py --connection_string--``` to get a basic status message.
+
+The ```connection_string``` can be USB, serial or network.
+
+For example: ```python hello-drone.py tcp:127.0.0.1:5760``` will connect to a SITL simulator running at port TCP 5760 on the local machine. 
+
+### mission.py
+
+Run ```python mission.py --connection_string-- --lattitude-- --longitude-- --drone_id--``` to execute a mission to the specified destination.
 
 The ```connection_string``` can be USB, serial or network.
 
 #### CLI Arguments
 1. connection_string
+2. latitude
+3. longitude
+4. drone_id (optional)(default=1)
+This is to specify to use the simultor(id=2) or the real drone(id=1).
 
-For example: ```python hello-drone.py tcp:127.0.0.1:5760``` will connect to a SITL simulator running at port TCP 5760 on the local machine. 
+**```python mission.py --help```** for more info.
 
-#### For use with GCS (Mission Planner) **and** the script
+### For use with GCS (Mission Planner) **and** the script
 
 ```mavproxy.py --master tcp:127.0.0.1:5760 --out 127.0.0.1:14550 --out 127.0.0.1:14551 --aircraft S500```
 
@@ -43,6 +54,9 @@ Use mavproxy to forward mavlink stream from 5760 to 14550 and 14551. In this cas
 
 **NOTE:** These streams are UDP only.
 
-
+## Starting the dev environment
+1. Start SIM
+2. Start mavproxy.py
+3. Connect with scripts
 
 
