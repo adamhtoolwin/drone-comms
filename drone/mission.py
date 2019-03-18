@@ -158,6 +158,8 @@ init_nav = {
     "drone_id": drone_id,
 }
 
+## local dev address
+## "http://localhost:3000/api/v1/nav_logs"
 init_nav_post = requests.post(server_address, data=init_nav)
 
 arm_and_takeoff(20)
@@ -180,7 +182,7 @@ while True:
     print(nav_logs)
     print("")
 
-    print("Posting navlogs")
+    print("Posting navlogs to %s" % server_address)
 
     nav_post = requests.post(server_address, data=nav_logs)
 
