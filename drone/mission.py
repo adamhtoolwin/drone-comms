@@ -45,6 +45,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("connection", help="The connection string to be used, i.e. the Pixhawk")
 parser.add_argument("latitude", help="The latitude of the destination")
 parser.add_argument("longitude", help="The longitude of the destination")
+parser.add_argument("mission_id", help="The longitude of the destination")
 parser.add_argument("--groundspeed", help="The default groundspeed of the drone")
 parser.add_argument("--server", help="The address of the REST server")
 parser.add_argument("--drone_id", help="The ID of the drone, default is 1 i.e. the real drone; put 2 for simulator")
@@ -65,6 +66,8 @@ else:
     # for prod
     server_address = "https://teamdronex.com/api/v1/nav_logs"
 
+# Need mission id for specifying when mission done
+mission_id = args.mission_id
 
 # Connect to the Vehicle.
 print("Connecting to vehicle on: %s" % (args.connection,))
@@ -189,6 +192,11 @@ while True:
 
     # break if disarmed
     if vehicle.armed == False:
+        end_status_data = {
+            "status": "Done"
+        }
+        mission_endpoint = "https://teamdronex.com/api/v1/missions/"
+        # end_post = requests.patch()
         break
 
 time.sleep(2)
