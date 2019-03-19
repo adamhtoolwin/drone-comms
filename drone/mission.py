@@ -33,6 +33,15 @@ def arm_and_takeoff(aTargetAltitude):
     # Wait until the vehicle reaches a safe height before processing the goto (otherwise the command
     #  after Vehicle.simple_takeoff will execute immediately).
     while True:
+        nav_log = {
+            "gps_latitude": vehicle.location.global_relative_frame.lat,
+            "gps_longitude": vehicle.location.global_relative_frame.lon,
+            "altitude": vehicle.location.global_relative_frame.alt,
+            "drone_id": drone_id,
+        }
+
+        nav_post = requests.post(server_address, data=nav_log)
+
         print " Altitude: ", vehicle.location.global_relative_frame.alt
         #Break and return from function just below target altitude.
         if vehicle.location.global_relative_frame.alt>=aTargetAltitude*0.95:
@@ -190,7 +199,7 @@ while True:
 
     # Hold for 5 seconds
     print("Waiting for 5 seconds")
-    time.sleep(5)
+    time.sleep(2)
 
     # break if disarmed
     if vehicle.armed == False:
