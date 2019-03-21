@@ -37,7 +37,7 @@ def arm_and_takeoff(aTargetAltitude):
             "gps_latitude": vehicle.location.global_relative_frame.lat,
             "gps_longitude": vehicle.location.global_relative_frame.lon,
             "altitude": vehicle.location.global_relative_frame.alt,
-            "battery": vehicle.battery.voltage,
+            "battery_voltage": vehicle.battery.voltage,
             "drone_id": drone_id,
         }
 
@@ -184,7 +184,7 @@ while True:
         "gps_latitude": vehicle.location.global_relative_frame.lat,
         "gps_longitude": vehicle.location.global_relative_frame.lon,
         "altitude": vehicle.location.global_relative_frame.alt,
-        "battery": vehicle.battery.voltage,
+        "battery_voltage": vehicle.battery.voltage,
         "drone_id": drone_id,
     }
 
