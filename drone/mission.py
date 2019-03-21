@@ -216,7 +216,7 @@ while True:
         mission_endpoint = "https://teamdronex.com/api/v1/missions/%s" % mission_id
         end_mission_post = requests.patch(mission_endpoint, data=end_mission_status_data)
 
-        drone_endpoint = "https://teamdronex.com/api/v1/drones/%s" % drone_id
+        drone_endpoint = "https://teamdronex.com/api/v1/drone/%s" % drone_id
         end_drone_post = requests.patch(drone_endpoint, data=end_drone_status_data)
         break
 
