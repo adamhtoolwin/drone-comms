@@ -37,6 +37,7 @@ def arm_and_takeoff(aTargetAltitude):
             "gps_latitude": vehicle.location.global_relative_frame.lat,
             "gps_longitude": vehicle.location.global_relative_frame.lon,
             "altitude": vehicle.location.global_relative_frame.alt,
+            "battery": vehicle.battery.voltage,
             "drone_id": drone_id,
         }
 
@@ -183,6 +184,7 @@ while True:
         "gps_latitude": vehicle.location.global_relative_frame.lat,
         "gps_longitude": vehicle.location.global_relative_frame.lon,
         "altitude": vehicle.location.global_relative_frame.alt,
+        "battery": vehicle.battery.voltage,
         "drone_id": drone_id,
     }
 
@@ -203,11 +205,19 @@ while True:
 
     # break if disarmed
     if vehicle.armed == False:
-        end_status_data = {
+        end_mission_status_data = {
             "status": "Done"
         }
-        mission_endpoint = "https://teamdronex.com/api/v1/missions/"
-        # end_post = requests.patch()
+
+        end_drone_status_data = {
+            "status": "Available"
+        }
+
+        mission_endpoint = "https://teamdronex.com/api/v1/missions/%s" % mission_id
+        end_mission_post = requests.patch(mission_endpoint, data=end_mission_status_data)
+
+        drone_endpoint = "https://teamdronex.com/api/v1/drones/%s" % drone_id
+        end_drone_post = requests.patch(drone_endpoint, data=end_drone_status_data)
         break
 
 time.sleep(2)

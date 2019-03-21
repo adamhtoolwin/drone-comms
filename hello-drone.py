@@ -107,7 +107,7 @@ def arm_and_takeoff(aTargetAltitude):
 
 arm_and_takeoff(20)
 
-time.sleep(5)
+time.sleep(15)
 
 print("Returning to land")
 vehicle.mode = VehicleMode("RTL")
