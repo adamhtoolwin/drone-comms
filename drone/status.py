@@ -12,7 +12,21 @@ import datetime
 # Parsing args
 parser = argparse.ArgumentParser()
 parser.add_argument("connection", help="The connection string to be used, i.e. the Pixhawk")
+parser.add_argument("--server", help="The address of the REST server")
+parser.add_argument("--drone_id", help="The ID of the drone, default is 1 i.e. the real drone; put 2 for simulator")
 args = parser.parse_args()
+
+if args.drone_id:
+    drone_id = args.drone_id
+else:
+    drone_id = 1
+
+if args.server:
+    # for dev - specify address
+    server_address = args.server
+else:
+    # for prod
+    server_address = "https://teamdronex.com/api/v1/nav_logs"
 
 # Connect to the Vehicle.
 print("Connecting to vehicle on: %s" % (args.connection,))
@@ -66,7 +80,15 @@ nav_logs = {
     "gps_latitude": vehicle.location.global_relative_frame.lat,
     "gps_longitude": vehicle.location.global_relative_frame.lon,
     "altitude": vehicle.location.global_relative_frame.alt,
-    "drone_id": 1,
+    "battery_voltage": vehicle.battery.voltage,
+    "battery_level": vehicle.battery.level,
+    "battery_current": vehicle.battery.current,
+    "ekf_ok": vehicle.ekf_ok,
+    "is_armable": vehicle.is_armable,
+    "system_status": vehicle.system_status.state,
+    "mode": vehicle.mode.name,
+    "armed": vehicle.armed,
+    "drone_id": drone_id,
 }
 
 print("")
@@ -113,16 +135,12 @@ status = {
     # "heading": vehicle.heading,
     # "is_armable": vehicle.is_armable,
     # "system_status": vehicle.system_status.state,
-    "mode": vehicle.mode.name,
-    "armed": vehicle.armed
 }
-
-status_json = json.dumps(status)
 
 print("")
 print("Posting navlogs")
 
-nav_post = requests.post("http://3.0.21.193/api/v1/nav_logs", data=nav_logs)
+nav_post = requests.post("https://teamdronex.com/api/v1/nav_logs", data=nav_logs)
 
 print("")
 
