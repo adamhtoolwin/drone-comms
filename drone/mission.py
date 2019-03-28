@@ -199,6 +199,13 @@ while True:
         "gps_longitude": vehicle.location.global_relative_frame.lon,
         "altitude": vehicle.location.global_relative_frame.alt,
         "battery_voltage": vehicle.battery.voltage,
+        "battery_level": vehicle.battery.level,
+        "battery_current": vehicle.battery.current,
+        "ekf_ok": vehicle.ekf_ok,
+        "is_armable": vehicle.is_armable,
+        "system_status": vehicle.system_status.state,
+        "mode": vehicle.mode.name,
+        "armed": vehicle.armed,
         "drone_id": drone_id,
     }
 
