@@ -5,6 +5,9 @@ from pymavlink import mavutil
 import time
 import argparse
 import requests
+import logging
+
+logging.basicConfig(filename='mission.log', level=logging.DEBUG)
 
 def arm_and_takeoff(aTargetAltitude):
     """
@@ -83,6 +86,8 @@ mission_id = args.mission_id
 print("Connecting to vehicle on: %s" % (args.connection,))
 vehicle = connect(args.connection, wait_ready=True)
 
+logging.info("Successfully connected")
+
 # Set the default vehicle airspeed
 if args.groundspeed:
     vehicle.groundspeed = int(args.groundspeed)
@@ -92,6 +97,7 @@ print("Setting the default groundspeed to %s" % vehicle.groundspeed)
 
 # Download missions from Pixhawk
 print("Downloading missions")
+logging.info("Successfully downloaded missions")
 cmds = vehicle.commands
 cmds.download()
 cmds.wait_ready()
@@ -112,6 +118,7 @@ cmds = vehicle.commands
 cmds.download()
 cmds.wait_ready()
 vehicle.mode = VehicleMode("STABILIZE")
+logging.info("RESET DRONE")
 time.sleep(1)
 
 # Get some vehicle attributes (state)
