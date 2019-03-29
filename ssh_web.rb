@@ -16,7 +16,7 @@ Net::SSH.start(host, user, port:2210, password: password) do |ssh|
     
       channel = ssh.open_channel do |ch|
         # For now using usb by serial - testing purposes
-        ch.exec "source ~/drone-comms/pyenv-path.sh; echo $PATH; python ~/drone-comms/drone/arming.py /dev/serial/by-id/usb-3D_Robotics_PX4_FMU_v2.x_0-if00 --drone_id 2" do |ch, success|
+        ch.exec "source ~/drone-comms/pyenv-path.sh; echo $PATH; python ~/drone-comms/drone/status.py /dev/serial/by-id/usb-3D_Robotics_PX4_FMU_v2.x_0-if00 --drone_id 2" do |ch, success|
           raise "could not execute command" unless success
     
           # "on_data" is called when the process writes something to stdout
