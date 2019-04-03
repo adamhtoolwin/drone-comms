@@ -2,17 +2,22 @@
 
 require 'net/ssh'
 
+if !ARGV.any?
+  raise "Empty filename!"
+end
+
 host = "localhost"
 # Will PROBABLY always be pi
 user = 'pi'
 password = '1234'
+filename = "#{ARGV.first}"
 
 puts "Starting connection to #{host} with user #{user}"
 Net::SSH.start(host, user, port:2211, password: password) do |ssh|
     
       channel = ssh.open_channel do |ch|
         # For now using usb by serial - testing purposes
-        ch.exec "python ~/Desktop/Drone_Base_python_codes/open_motor.py" do |ch, success|
+        ch.exec "python ~/Desktop/Drone_Base_python_codes/#{filename}" do |ch, success|
           raise "could not execute command" unless success
     
           # "on_data" is called when the process writes something to stdout
