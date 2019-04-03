@@ -12,7 +12,7 @@ Net::SSH.start(host, user, port:2211, password: password) do |ssh|
     
       channel = ssh.open_channel do |ch|
         # For now using usb by serial - testing purposes
-        ch.exec "python ~/Desktop/Drone_Base\ python\ codes/open_door.py" do |ch, success|
+        ch.exec "python ~/Desktop/Drone_Base_python_codes/open_door.py" do |ch, success|
           raise "could not execute command" unless success
     
           # "on_data" is called when the process writes something to stdout
