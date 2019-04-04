@@ -4,3 +4,4 @@ MAVProxy
 lxml
 dronekit-sitl
 pymavlink
+thrift

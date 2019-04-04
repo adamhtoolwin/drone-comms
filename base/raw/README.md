@@ -1,2 +1,2 @@
 ###
-All code in the main directory is courtesy of Han Htoo Zaw
+All code in the this directory is courtesy of Han Htoo Zaw
