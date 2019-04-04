@@ -1,7 +1,19 @@
 import sys
 import glob
+import argparse
 
-sys.path.append('gen-py')
+parser = argparse.ArgumentParser()
+parser.add_argument("--path", help="The path of the generated Thrift files")
+args = parser.parse_args()
+
+if args.path:
+    path = args.path
+else:
+    path = '/home/adam/drone/drone-comms/base/gen-py'
+
+sys.path.append(path)
+
+# sys.path.append('/home/adam/drone/drone-comms/base/gen-py')
 
 from base import BaseDoor
 
