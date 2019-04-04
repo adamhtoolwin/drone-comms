@@ -25,6 +25,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('')
     print('Functions:')
     print('  void openDoor()')
+    print('  void closeDoor()')
     print('')
     sys.exit(0)
 
@@ -109,6 +110,12 @@ if cmd == 'openDoor':
         print('openDoor requires 0 args')
         sys.exit(1)
     pp.pprint(client.openDoor())
+
+elif cmd == 'closeDoor':
+    if len(args) != 0:
+        print('closeDoor requires 0 args')
+        sys.exit(1)
+    pp.pprint(client.closeDoor())
 
 else:
     print('Unrecognized method %s' % cmd)

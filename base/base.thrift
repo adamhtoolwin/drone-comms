@@ -14,4 +14,5 @@ namespace netcore base
 
 service BaseDoor{
     void openDoor(),
+    void closeDoor(),
 }
