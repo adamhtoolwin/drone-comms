@@ -3,13 +3,13 @@ import glob
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--path", help="The path of the generated Thrift files")
+parser.add_argument("--path", help="The complete path of the generated Thrift files. Default is /home/ubuntu/drone-comms/base/gen-py.")
 args = parser.parse_args()
 
 if args.path:
     path = args.path
 else:
-    path = '/home/adam/drone/drone-comms/base/gen-py'
+    path = '/home/ubuntu/drone-comms/base/gen-py'
 
 sys.path.append(path)
 
