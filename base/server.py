@@ -53,7 +53,7 @@ class BaseHandler:
         forward(1.5)
         GPIO.cleanup()
 
-    def closeDoor():
+    def closeDoor(self):
         print("Closing door...")
         import RPi.GPIO as GPIO
         import time
