@@ -193,10 +193,6 @@ time.sleep(2)
 # Change mode to AUTO to execute mission plan
 vehicle.mode = VehicleMode("AUTO")
 
-# Close vehicle object 
-# vehicle interaction is finished
-vehicle.close()
-
 # http post to rest server
 while True:
     nav_logs = {
@@ -247,3 +243,7 @@ while True:
         break
 
 time.sleep(2)
+
+# Close vehicle object 
+# vehicle interaction is finished
+vehicle.close()
