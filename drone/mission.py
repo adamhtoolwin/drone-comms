@@ -193,6 +193,11 @@ time.sleep(2)
 # Change mode to AUTO to execute mission plan
 vehicle.mode = VehicleMode("AUTO")
 
+# Close vehicle object 
+# vehicle interaction is finished
+vehicle.close()
+
+# http post to rest server
 while True:
     nav_logs = {
         "gps_latitude": vehicle.location.global_relative_frame.lat,
@@ -242,10 +247,3 @@ while True:
         break
 
 time.sleep(2)
-
-end_mission = {
-
-}
-
-# Close vehicle object before exiting script
-vehicle.close()
