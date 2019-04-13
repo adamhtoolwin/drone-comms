@@ -22,6 +22,10 @@ if args.user:
 else:
     user = "ubuntu"
 
+port = 9090
+if args.port:
+    port = args.port
+
 sys.path.append(path)
 
 # sys.path.append('gen-py')
@@ -41,7 +45,28 @@ from pymavlink import mavutil
 class DroneHandler:
     def __init__(self):
         self.log = {}
+
+        print("Connecting to vehicle on {0}".format(args.connection))
         self.vehicle = connect(args.connection, wait_ready=True)
+
+        self.cmds = self.vehicle.commands
+        print("Downloading missions...")
+        self.cmds.download()
+        self.cmds.wait_ready()
+
+    def clear_missions(self):
+        print("Clearing missions")
+        self.cmds.clear()
+        self.cmds.upload()
+
+    def download_missions(self):
+        print("Downloading missions...")
+        self.cmds.download()
+        self.cmd.wait_ready()
+
+    def change_mode(self, mode):
+        print("Changing mode from {0} to {1}...".format(self.vehicle.mode.name, mode))
+        self.vehicle.mode = VehicleMode(mode)
     
     def takeoff(self, alt):
         print "Basic pre-arm checks"
@@ -77,7 +102,7 @@ class DroneHandler:
 if __name__ == '__main__':
     handler = DroneHandler()
     processor = Drone.Processor(handler)
-    transport = TSocket.TServerSocket(host='0.0.0.0', port=9090)
+    transport = TSocket.TServerSocket(host='0.0.0.0', port=port)
     tfactory = TTransport.TBufferedTransportFactory()
     pfactory = TBinaryProtocol.TBinaryProtocolFactory()
 

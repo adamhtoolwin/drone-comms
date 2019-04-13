@@ -22,6 +22,10 @@ else:
 
 sys.path.append(path)
 
+port = 9090
+if args.port:
+    port = args.port
+
 # sys.path.append('/home/adam/drone/drone-comms/drone/thrift/gen-py')
 
 # Thrift imports
