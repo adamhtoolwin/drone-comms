@@ -19,11 +19,11 @@ if args.user:
 else:
     user = "ubuntu"
 
-
 sys.path.append(path)
 
 # sys.path.append('/home/adam/drone/drone-comms/drone/thrift/gen-py')
 
+# Thrift imports
 from drone import Drone
 
 from thrift import Thrift

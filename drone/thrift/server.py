@@ -3,7 +3,26 @@ import glob
 import sys
 import time
 
-sys.path.append('gen-py')
+parser = argparse.ArgumentParser()
+parser.add_argument("--path", help="The complete path of the generated Thrift files. Default is /home/pi/drone-comms/base/gen-py.")
+parser.add_argument("--user", help="The user profile name. This will be used in the path to the generated Thrift files. Default is pi.")
+args = parser.parse_args()
+
+if args.path:
+    path = args.path
+else:
+    path = '/home/ubuntu/drone-comms/drone/thrift/gen-py'
+
+if args.user:
+    user = args.user
+    path = '/home/{}/drone-comms/drone/thrift/gen-py'.format(user)
+
+else:
+    user = "ubuntu"
+
+sys.path.append(path)
+
+# sys.path.append('gen-py')
 
 from drone import Drone
 
@@ -41,14 +60,14 @@ class DroneHandler:
         print "Taking off!"
         self.vehicle.simple_takeoff(alt) # Take off to target altitude
 
-    def land(self):
+    def land(self):d
         self.vehicle.mode = VehicleMode("RTL")
 
-    def fly_to(self, lat, lng):
+    def fly_to(self, lat, lng, alt):d
         if self.vehicle.mode != VehicleMode("GUIDED"):
             self.vehicle.mode = VehicleMode("GUIDED")  
 
-        location = LocationGlobalRelative(lat, lng, 40)
+        location = LocationGlobalRelative(lat, lng, alt)
         self.vehicle.simple_goto(location)
 
 

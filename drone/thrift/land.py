@@ -2,18 +2,26 @@ import sys
 import glob
 import argparse
 
-# parser = argparse.ArgumentParser()
-# parser.add_argument("--path", help="The complete path of the generated Thrift files. Default is /home/ubuntu/drone-comms/base/gen-py.")
-# args = parser.parse_args()
+parser = argparse.ArgumentParser()
+parser.add_argument("--path", help="The complete path of the generated Thrift files. Default is /home/ubuntu/drone-comms/base/gen-py.")
+parser.add_argument("--user", help="The user profile name. This will be used in the path to the generated Thrift files. Default is ubuntu.")
+args = parser.parse_args()
 
-# if args.path:
-#     path = args.path
-# else:
-#     path = '/home/adam/drone/drone-comms/drone/gen-py'
+if args.path:
+    path = args.path
+else:
+    path = '/home/ubuntu/drone-comms/drone/thrift/gen-py'
 
-# sys.path.append(path)
+if args.user:
+    user = args.user
+    path = '/home/{}/drone-comms/drone/thrift/gen-py'.format(user)
 
-sys.path.append('/home/adam/drone/drone-comms/drone/thrift/gen-py')
+else:
+    user = "ubuntu"
+
+sys.path.append(path)
+
+# sys.path.append('/home/adam/drone/drone-comms/drone/thrift/gen-py')
 
 from drone import Drone
 
