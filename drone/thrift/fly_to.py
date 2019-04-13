@@ -39,7 +39,7 @@ def main():
     # Connect!
     transport.open()
 
-    client.fly_to(14.076550, 100.614012)
+    client.fly_to(14.076550, 100.614012, 50)
     print('FLYING AWAY')
 
     # Close!

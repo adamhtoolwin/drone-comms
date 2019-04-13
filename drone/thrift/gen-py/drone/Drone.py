@@ -30,11 +30,12 @@ class Iface(object):
     def land(self):
         pass
 
-    def fly_to(self, latitude, longitude):
+    def fly_to(self, latitude, longitude, altitude):
         """
         Parameters:
          - latitude
          - longitude
+         - altitude
 
         """
         pass
@@ -101,21 +102,23 @@ class Client(Iface):
         iprot.readMessageEnd()
         return
 
-    def fly_to(self, latitude, longitude):
+    def fly_to(self, latitude, longitude, altitude):
         """
         Parameters:
          - latitude
          - longitude
+         - altitude
 
         """
-        self.send_fly_to(latitude, longitude)
+        self.send_fly_to(latitude, longitude, altitude)
         self.recv_fly_to()
 
-    def send_fly_to(self, latitude, longitude):
+    def send_fly_to(self, latitude, longitude, altitude):
         self._oprot.writeMessageBegin('fly_to', TMessageType.CALL, self._seqid)
         args = fly_to_args()
         args.latitude = latitude
         args.longitude = longitude
+        args.altitude = altitude
         args.write(self._oprot)
         self._oprot.writeMessageEnd()
         self._oprot.trans.flush()
@@ -209,7 +212,7 @@ class Processor(Iface, TProcessor):
         iprot.readMessageEnd()
         result = fly_to_result()
         try:
-            self._handler.fly_to(args.latitude, args.longitude)
+            self._handler.fly_to(args.latitude, args.longitude, args.altitude)
             msg_type = TMessageType.REPLY
         except TTransport.TTransportException:
             raise
@@ -425,13 +428,15 @@ class fly_to_args(object):
     Attributes:
      - latitude
      - longitude
+     - altitude
 
     """
 
 
-    def __init__(self, latitude=None, longitude=None,):
+    def __init__(self, latitude=None, longitude=None, altitude=None,):
         self.latitude = latitude
         self.longitude = longitude
+        self.altitude = altitude
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -452,6 +457,11 @@ class fly_to_args(object):
                     self.longitude = iprot.readDouble()
                 else:
                     iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.DOUBLE:
+                    self.altitude = iprot.readDouble()
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -469,6 +479,10 @@ class fly_to_args(object):
         if self.longitude is not None:
             oprot.writeFieldBegin('longitude', TType.DOUBLE, 2)
             oprot.writeDouble(self.longitude)
+            oprot.writeFieldEnd()
+        if self.altitude is not None:
+            oprot.writeFieldBegin('altitude', TType.DOUBLE, 3)
+            oprot.writeDouble(self.altitude)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -491,6 +505,7 @@ fly_to_args.thrift_spec = (
     None,  # 0
     (1, TType.DOUBLE, 'latitude', None, None, ),  # 1
     (2, TType.DOUBLE, 'longitude', None, None, ),  # 2
+    (3, TType.DOUBLE, 'altitude', None, None, ),  # 3
 )
 
 

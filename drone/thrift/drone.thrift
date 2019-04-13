@@ -12,5 +12,5 @@ service Drone{
     
     void land(),
 
-    void fly_to(1:double latitude, 2:double longitude)
+    void fly_to(1:double latitude, 2:double longitude, 3:double altitude)
 }

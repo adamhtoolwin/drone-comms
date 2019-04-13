@@ -26,7 +26,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('Functions:')
     print('  void takeoff(double altitude)')
     print('  void land()')
-    print('  void fly_to(double latitude, double longitude)')
+    print('  void fly_to(double latitude, double longitude, double altitude)')
     print('')
     sys.exit(0)
 
@@ -119,10 +119,10 @@ elif cmd == 'land':
     pp.pprint(client.land())
 
 elif cmd == 'fly_to':
-    if len(args) != 2:
-        print('fly_to requires 2 args')
+    if len(args) != 3:
+        print('fly_to requires 3 args')
         sys.exit(1)
-    pp.pprint(client.fly_to(eval(args[0]), eval(args[1]),))
+    pp.pprint(client.fly_to(eval(args[0]), eval(args[1]), eval(args[2]),))
 
 else:
     print('Unrecognized method %s' % cmd)
