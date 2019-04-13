@@ -3,6 +3,7 @@ import glob
 import argparse
 
 parser = argparse.ArgumentParser()
+parser.add_argument("--port", help="The port to which the thrift socket must connect. Default is 9090.")
 parser.add_argument("--path", help="The complete path of the generated Thrift files. Default is /home/ubuntu/drone-comms/base/gen-py.")
 parser.add_argument("--user", help="The user profile name. This will be used in the path to the generated Thrift files. Default is ubuntu.")
 args = parser.parse_args()
