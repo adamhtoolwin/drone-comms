@@ -1,9 +1,11 @@
-# Thrift and py imports
+# py imports
 import glob
 import sys
 import time
 
 parser = argparse.ArgumentParser()
+parser.add_argument("connection", help="The connection type, address and port to be used to the Pixhawk")
+parser.add_argument("--port", help="The port at which the thrift socket is to be opened. Default is 9090.")
 parser.add_argument("--path", help="The complete path of the generated Thrift files. Default is /home/pi/drone-comms/base/gen-py.")
 parser.add_argument("--user", help="The user profile name. This will be used in the path to the generated Thrift files. Default is pi.")
 args = parser.parse_args()
@@ -24,6 +26,7 @@ sys.path.append(path)
 
 # sys.path.append('gen-py')
 
+# Thrift imports
 from drone import Drone
 
 from thrift.transport import TSocket
@@ -38,7 +41,7 @@ from pymavlink import mavutil
 class DroneHandler:
     def __init__(self):
         self.log = {}
-        self.vehicle = connect("udp:127.0.0.1:14551", wait_ready=True)
+        self.vehicle = connect(args.connection, wait_ready=True)
     
     def takeoff(self, alt):
         print "Basic pre-arm checks"
