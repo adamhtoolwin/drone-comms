@@ -13,4 +13,10 @@ service Drone{
     void land(),
 
     void fly_to(1:double latitude, 2:double longitude, 3:double altitude)
+
+    void clear_missions(),
+
+    void download_missions(),
+
+    void change_mode(1: String mode)
 }

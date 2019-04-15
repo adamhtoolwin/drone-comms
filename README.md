@@ -59,4 +59,7 @@ Use mavproxy to forward mavlink stream from 5760 to 14550 and 14551. In this cas
 2. Start mavproxy.py
 3. Connect with scripts
 
+### Starting on own laptop
+ 1. python ~/drone/drone-comms/drone/thrift/server.py udp:127.0.0.1:14550 --path /home/adam/drone/drone-comms/drone/thrift/gen-py
+
 

@@ -2,6 +2,7 @@
 import glob
 import sys
 import time
+import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("connection", help="The connection type, address and port to be used to the Pixhawk")
@@ -50,9 +51,8 @@ class DroneHandler:
         self.vehicle = connect(args.connection, wait_ready=True)
 
         self.cmds = self.vehicle.commands
-        print("Downloading missions...")
-        self.cmds.download()
-        self.cmds.wait_ready()
+
+        self.download_missions()
 
     def clear_missions(self):
         print("Clearing missions")
@@ -62,7 +62,7 @@ class DroneHandler:
     def download_missions(self):
         print("Downloading missions...")
         self.cmds.download()
-        self.cmd.wait_ready()
+        self.cmds.wait_ready()
 
     def change_mode(self, mode):
         print("Changing mode from {0} to {1}...".format(self.vehicle.mode.name, mode))
@@ -88,10 +88,10 @@ class DroneHandler:
         print "Taking off!"
         self.vehicle.simple_takeoff(alt) # Take off to target altitude
 
-    def land(self):d
-        self.vehicle.mode = VehicleMode("RTL")
+    def land(self):
+        self.vehicle.mode = VehicleMode("LAND")
 
-    def fly_to(self, lat, lng, alt):d
+    def fly_to(self, lat, lng, alt):
         if self.vehicle.mode != VehicleMode("GUIDED"):
             self.vehicle.mode = VehicleMode("GUIDED")  
 
