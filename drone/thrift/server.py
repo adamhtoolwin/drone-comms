@@ -64,6 +64,20 @@ class DroneHandler:
         self.cmds.download()
         self.cmds.wait_ready()
 
+    def add_delivery_mission(self, dest_latitude, dest_longitude, alt):
+        cmd1 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, dest_latitude, dest_longitude, 20)
+        cmd2 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, self.vehicle.home_location.lat, self.vehicle.home_location.lon, 20)
+        cmd3 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_RETURN_TO_LAUNCH, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        # cmd4 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_MISSION_START, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        
+        # Add and send commands
+        self.cmds.add(cmd1)
+        self.cmds.add(cmd2)
+        self.cmds.add(cmd3)
+        
+        print("Uploading missions")
+        self.cmds.upload()
+
     def change_mode(self, mode):
         print("Changing mode from {0} to {1}...".format(self.vehicle.mode.name, mode))
         self.vehicle.mode = VehicleMode(mode)
@@ -92,7 +106,9 @@ class DroneHandler:
         self.vehicle.mode = VehicleMode("LAND")
 
     def fly_to(self, lat, lng, alt):
+        print ("Flying away...")
         if self.vehicle.mode != VehicleMode("GUIDED"):
+            print("Changing mode to GUIDED")
             self.vehicle.mode = VehicleMode("GUIDED")  
 
         location = LocationGlobalRelative(lat, lng, alt)
