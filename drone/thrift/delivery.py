@@ -45,7 +45,7 @@ sys.path.append(path)
 
 # port = 9090
 if args.port:
-    port = args.port
+    port = int(args.port)
 else:
     port = 9090
 
