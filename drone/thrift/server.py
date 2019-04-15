@@ -23,11 +23,9 @@ if args.user:
 else:
     user = "ubuntu"
 
-# port = 9090
+port = 9090
 if args.port:
     port = args.port
-else:
-    port = 9090
 
 sys.path.append(path)
 

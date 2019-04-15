@@ -43,11 +43,9 @@ else:
 
 sys.path.append(path)
 
-# port = 9090
+port = 9090
 if args.port:
     port = int(args.port)
-else:
-    port = 9090
 
 # sys.path.append('/home/adam/drone/drone-comms/drone/thrift/gen-py')
 
@@ -61,7 +59,7 @@ from thrift.protocol import TBinaryProtocol
 
 def main():
     # Make socket
-    transport = TSocket.TSocket('localhost', 9090)
+    transport = TSocket.TSocket('localhost', port)
 
     # Buffering is critical. Raw sockets are very slow
     transport = TTransport.TBufferedTransport(transport)
