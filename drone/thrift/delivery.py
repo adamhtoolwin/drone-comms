@@ -43,9 +43,11 @@ else:
 
 sys.path.append(path)
 
-port = 9090
+# port = 9090
 if args.port:
-    port = int(args.port)
+    port = args.port
+else:
+    port = 9090
 
 # sys.path.append('/home/adam/drone/drone-comms/drone/thrift/gen-py')
 
