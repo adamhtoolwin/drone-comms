@@ -20,7 +20,6 @@ else:
 if args.user:
     user = args.user
     path = '/home/{}/drone-comms/drone/thrift/gen-py'.format(user)
-
 else:
     user = "ubuntu"
 
@@ -55,29 +54,56 @@ class DroneHandler:
 
         self.download_missions()
 
+        self.report_status(1)
+
     def report_status(self, drone_id):
+        # Can call from client loop there?
+        armed = self.vehicle.armed
 
-        while(True):
-            print("Sending status to server...")
+        print("Sending one time status to server...")
 
-            nav_log = {
-                "gps_latitude": self.vehicle.location.global_relative_frame.lat,
-                "gps_longitude": self.vehicle.location.global_relative_frame.lon,
-                "altitude": self.vehicle.location.global_relative_frame.alt,
-                "battery_voltage": self.vehicle.battery.voltage,
-                "battery_level": self.vehicle.battery.level,
-                "battery_current": self.vehicle.battery.current,
-                "ekf_ok": self.vehicle.ekf_ok,
-                "is_armable": self.vehicle.is_armable,
-                "system_status": self.vehicle.system_status.state,
-                "mode": self.vehicle.mode.name,
-                "armed": self.vehicle.armed,
-                "drone_id": drone_id,
-            }
+        nav_log = {
+            "gps_latitude": self.vehicle.location.global_relative_frame.lat,
+            "gps_longitude": self.vehicle.location.global_relative_frame.lon,
+            "altitude": self.vehicle.location.global_relative_frame.alt,
+            "battery_voltage": self.vehicle.battery.voltage,
+            "battery_level": self.vehicle.battery.level,
+            "battery_current": self.vehicle.battery.current,
+            "ekf_ok": self.vehicle.ekf_ok,
+            "is_armable": self.vehicle.is_armable,
+            "system_status": self.vehicle.system_status.state,
+            "mode": self.vehicle.mode.name,
+            "armed": armed,
+            "drone_id": drone_id,
+        }
 
-            nav_post = requests.post("https://teamdronex.com/api/v1/nav_logs", data=nav_log)
+        nav_post = requests.post("https://teamdronex.com/api/v1/nav_logs", data=nav_log)
 
-            time.sleep(3)
+        return armed
+
+        ### Temporarily removed loop in server function
+        # while(True):
+        #     print("Sending status to server...")
+
+        #     nav_log = {
+        #         "gps_latitude": self.vehicle.location.global_relative_frame.lat,
+        #         "gps_longitude": self.vehicle.location.global_relative_frame.lon,
+        #         "altitude": self.vehicle.location.global_relative_frame.alt,
+        #         "battery_voltage": self.vehicle.battery.voltage,
+        #         "battery_level": self.vehicle.battery.level,
+        #         "battery_current": self.vehicle.battery.current,
+        #         "ekf_ok": self.vehicle.ekf_ok,
+        #         "is_armable": self.vehicle.is_armable,
+        #         "system_status": self.vehicle.system_status.state,
+        #         "mode": self.vehicle.mode.name,
+        #         "armed": self.vehicle.armed,
+        #         "drone_id": drone_id,
+        #     }
+
+        #     nav_post = requests.post("https://teamdronex.com/api/v1/nav_logs", data=nav_log)
+
+        #     time.sleep(3)
+        ###
 
     def clear_missions(self):
         print("Clearing missions")

@@ -253,7 +253,7 @@ class Client(Iface):
 
         """
         self.send_report_status(drone_id)
-        self.recv_report_status()
+        return self.recv_report_status()
 
     def send_report_status(self, drone_id):
         self._oprot.writeMessageBegin('report_status', TMessageType.CALL, self._seqid)
@@ -274,7 +274,9 @@ class Client(Iface):
         result = report_status_result()
         result.read(iprot)
         iprot.readMessageEnd()
-        return
+        if result.success is not None:
+            return result.success
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "report_status failed: unknown result")
 
     def add_delivery_mission(self, latitude, longitude, altitude):
         """
@@ -483,7 +485,7 @@ class Processor(Iface, TProcessor):
         iprot.readMessageEnd()
         result = report_status_result()
         try:
-            self._handler.report_status(args.drone_id)
+            result.success = self._handler.report_status(args.drone_id)
             msg_type = TMessageType.REPLY
         except TTransport.TTransportException:
             raise
@@ -1186,7 +1188,15 @@ report_status_args.thrift_spec = (
 
 
 class report_status_result(object):
+    """
+    Attributes:
+     - success
 
+    """
+
+
+    def __init__(self, success=None,):
+        self.success = success
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -1197,6 +1207,11 @@ class report_status_result(object):
             (fname, ftype, fid) = iprot.readFieldBegin()
             if ftype == TType.STOP:
                 break
+            if fid == 0:
+                if ftype == TType.BOOL:
+                    self.success = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -1207,6 +1222,10 @@ class report_status_result(object):
             oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
             return
         oprot.writeStructBegin('report_status_result')
+        if self.success is not None:
+            oprot.writeFieldBegin('success', TType.BOOL, 0)
+            oprot.writeBool(self.success)
+            oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
 
@@ -1225,6 +1244,7 @@ class report_status_result(object):
         return not (self == other)
 all_structs.append(report_status_result)
 report_status_result.thrift_spec = (
+    (0, TType.BOOL, 'success', None, None, ),  # 0
 )
 
 
