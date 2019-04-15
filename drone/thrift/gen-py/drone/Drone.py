@@ -1144,8 +1144,8 @@ class report_status_args(object):
             if ftype == TType.STOP:
                 break
             if fid == 1:
-                if ftype == TType.STRING:
-                    self.drone_id = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                if ftype == TType.I32:
+                    self.drone_id = iprot.readI32()
                 else:
                     iprot.skip(ftype)
             else:
@@ -1159,8 +1159,8 @@ class report_status_args(object):
             return
         oprot.writeStructBegin('report_status_args')
         if self.drone_id is not None:
-            oprot.writeFieldBegin('drone_id', TType.STRING, 1)
-            oprot.writeString(self.drone_id.encode('utf-8') if sys.version_info[0] == 2 else self.drone_id)
+            oprot.writeFieldBegin('drone_id', TType.I32, 1)
+            oprot.writeI32(self.drone_id)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -1181,7 +1181,7 @@ class report_status_args(object):
 all_structs.append(report_status_args)
 report_status_args.thrift_spec = (
     None,  # 0
-    (1, TType.STRING, 'drone_id', 'UTF8', None, ),  # 1
+    (1, TType.I32, 'drone_id', None, None, ),  # 1
 )
 
 

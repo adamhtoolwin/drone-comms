@@ -19,6 +19,10 @@ if args.ait:
     dest_longitude = 100.614012
 #
 
+drone_id = 2
+if args.drone_id:
+    drone_id = args.drone_id
+
 if args.path:
     path = args.path
 else:
