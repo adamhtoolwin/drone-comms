@@ -58,6 +58,8 @@ class DroneHandler:
     def report_status(self, drone_id):
 
         while(True):
+            print("Sending status to server...")
+
             nav_log = {
                 "gps_latitude": self.vehicle.location.global_relative_frame.lat,
                 "gps_longitude": self.vehicle.location.global_relative_frame.lon,
@@ -74,6 +76,8 @@ class DroneHandler:
             }
 
             nav_post = requests.post("https://teamdronex.com/api/v1/nav_logs", data=nav_log)
+
+            time.sleep(3)
 
     def clear_missions(self):
         print("Clearing missions")

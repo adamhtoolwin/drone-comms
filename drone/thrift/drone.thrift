@@ -8,7 +8,7 @@ namespace haxe base
 namespace netcore base
 
 service Drone{
-    void takeoff(1:double altitude),
+    void takeoff(1:double altitude,),
     
     void land(),
 
