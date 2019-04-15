@@ -64,6 +64,8 @@ def main():
     # Create a client to use the protocol encoder
     client = Drone.Client(protocol)
 
+    status_client = Drone.Client(protocol)
+
     # Connect!
     transport.open()
 
@@ -71,17 +73,17 @@ def main():
     dest_longitude = float(args.longitude)
     altitude = float(args.altitude)
     
-    # print("Starting status reports...")
-    # client.report_status(int(args.drone_id))
+    print("Starting status reports...")
+    client.report_status(int(args.drone_id))
 
-    print("Clearing existing missions...")
-    client.clear_missions()
+    # print("Clearing existing missions...")
+    # client.clear_missions()
 
-    print("Downloading missions...")
-    client.download_missions()
+    # print("Downloading missions...")
+    # client.download_missions()
 
-    print("Add mission to {0}, {1} at {2} metres".format(args.latitude, args.longitude, args.altitude))
-    client.add_delivery_mission(dest_latitude, dest_longitude, altitude)
+    # print("Add mission to {0}, {1} at {2} metres".format(args.latitude, args.longitude, args.altitude))
+    # client.add_delivery_mission(dest_latitude, dest_longitude, altitude)
 
     # client.fly_to(14.076550, 100.614012, 50)
 
