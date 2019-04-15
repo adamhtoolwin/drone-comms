@@ -65,18 +65,29 @@ class DroneHandler:
         self.cmds.wait_ready()
 
     def add_delivery_mission(self, dest_latitude, dest_longitude, alt):
+        # cmd1 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0, alt)
         cmd1 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, dest_latitude, dest_longitude, alt)
         cmd2 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, self.vehicle.home_location.lat, self.vehicle.home_location.lon, alt)
         cmd3 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_RETURN_TO_LAUNCH, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-        # cmd4 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_MISSION_START, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        # cmd4 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_MISSION_START, 0, 0, 0, 0, 0 , 0, 0, 0, 0)
         
         # Add and send commands
         self.cmds.add(cmd1)
         self.cmds.add(cmd2)
         self.cmds.add(cmd3)
+
+        # self.cmds.add(cmd4)
+        # self.cmds.add(cmd5)
         
         print("Uploading missions")
         self.cmds.upload()
+        self.cmds.wait_ready()
+
+        # print("Taking off to {0}".format(str(alt)))
+        self.takeoff(alt)
+
+        self.change_mode("AUTO")
+
 
     def change_mode(self, mode):
         print("Changing mode from {0} to {1}...".format(self.vehicle.mode.name, mode))
@@ -91,16 +102,22 @@ class DroneHandler:
 
         print "Arming motors"
         # Copter should arm in GUIDED mode
-        self.vehicle.mode    = VehicleMode("GUIDED")
-        self.vehicle.armed   = True
+        self.vehicle.mode = VehicleMode("GUIDED")
+        self.vehicle.armed = True
 
         # Confirm vehicle armed before attempting to take off
         while not self.vehicle.armed:
             print " Waiting for arming..."
             time.sleep(1)
 
-        print "Taking off!"
+        print("Taking off to {0}...".format(str(alt)))
         self.vehicle.simple_takeoff(alt) # Take off to target altitude
+
+        while(True):
+            if self.vehicle.location.global_relative_frame.alt>=alt*0.95:
+                print "Reached target altitude."
+                break
+            time.sleep(1)
 
     def land(self):
         self.vehicle.mode = VehicleMode("LAND")

@@ -75,11 +75,11 @@ def main():
     print("Add mission to {0}, {1} at {2} metres".format(args.latitude, args.longitude, args.altitude))
     client.add_delivery_mission(dest_latitude, dest_longitude, altitude)
 
-    print("Taking off...")
-    client.takeoff(altitude)
+    # print("Taking off...")
+    # client.takeoff(altitude)
 
-    print("Changing mode to AUTO")
-    client.change_mode("AUTO")
+    # print("Changing mode to AUTO")
+    # client.change_mode("AUTO")
 
     # client.fly_to(14.076550, 100.614012, 50)
 
