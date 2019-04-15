@@ -2,11 +2,13 @@ import sys
 import glob
 import argparse
 import time
+import requests
 
 parser = argparse.ArgumentParser()
 parser.add_argument("latitude", help="The latitude of the destination")
 parser.add_argument("longitude", help="The longitude of the destination")
 parser.add_argument("altitude", help="The altitude at which the drone will fly")
+parser.add_argument("mission_id", help="The longitude of the destination")
 parser.add_argument("--drone_id", help="The ID of the drone, default is 2 i.e. the real drone; put 1 for simulator")
 parser.add_argument("--ait", help="Set to 1 to make destination ait main gate")
 parser.add_argument("--port", help="The port to which the thrift socket must connect. Default is 9090.")
@@ -19,6 +21,9 @@ if args.ait:
     dest_latitude = 14.076550
     dest_longitude = 100.614012
 #
+
+# Need mission id for specifying when mission done
+mission_id = args.mission_id
 
 drone_id = 2
 if args.drone_id:
@@ -85,8 +90,22 @@ def main():
 
     print("Starting in flight status reports...")
     while(True):
+        print("Reporting flight status...")
         armed = client.report_status(int(args.drone_id))
         if not armed:
+            end_mission_status_data = {
+                "status": "Done"
+            }
+
+            end_drone_status_data = {
+                "status": "Available"
+            }
+
+            mission_endpoint = "https://teamdronex.com/api/v1/missions/%s" % mission_id
+            end_mission_post = requests.patch(mission_endpoint, data=end_mission_status_data)
+
+            drone_endpoint = "https://teamdronex.com/api/v1/drone/%s" % drone_id
+            end_drone_post = requests.patch(drone_endpoint, data=end_drone_status_data)
             break
         
         time.sleep(3)
