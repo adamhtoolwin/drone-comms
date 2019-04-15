@@ -18,5 +18,5 @@ service Drone{
 
     void download_missions(),
 
-    void change_mode(1: String mode)
+    void change_mode(1: string mode)
 }
