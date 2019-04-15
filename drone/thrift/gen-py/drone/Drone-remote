@@ -30,6 +30,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('  void clear_missions()')
     print('  void download_missions()')
     print('  void change_mode(string mode)')
+    print('  void report_status(string drone_id)')
     print('  void add_delivery_mission(double latitude, double longitude, double altitude)')
     print('')
     sys.exit(0)
@@ -145,6 +146,12 @@ elif cmd == 'change_mode':
         print('change_mode requires 1 args')
         sys.exit(1)
     pp.pprint(client.change_mode(args[0],))
+
+elif cmd == 'report_status':
+    if len(args) != 1:
+        print('report_status requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.report_status(args[0],))
 
 elif cmd == 'add_delivery_mission':
     if len(args) != 3:

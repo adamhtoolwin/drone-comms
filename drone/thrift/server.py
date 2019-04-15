@@ -3,6 +3,7 @@ import glob
 import sys
 import time
 import argparse
+import requests
 
 parser = argparse.ArgumentParser()
 parser.add_argument("connection", help="The connection type, address and port to be used to the Pixhawk")
@@ -54,6 +55,26 @@ class DroneHandler:
 
         self.download_missions()
 
+    def report_status(self, drone_id):
+
+        while(True):
+            nav_log = {
+                "gps_latitude": self.vehicle.location.global_relative_frame.lat,
+                "gps_longitude": self.vehicle.location.global_relative_frame.lon,
+                "altitude": self.vehicle.location.global_relative_frame.alt,
+                "battery_voltage": self.vehicle.battery.voltage,
+                "battery_level": self.vehicle.battery.level,
+                "battery_current": self.vehicle.battery.current,
+                "ekf_ok": self.vehicle.ekf_ok,
+                "is_armable": self.vehicle.is_armable,
+                "system_status": self.vehicle.system_status.state,
+                "mode": self.vehicle.mode.name,
+                "armed": self.vehicle.armed,
+                "drone_id": drone_id,
+            }
+
+            nav_post = requests.post("https://teamdronex.com/api/v1/nav_logs", data=nav_log)
+
     def clear_missions(self):
         print("Clearing missions")
         self.cmds.clear()
@@ -75,9 +96,6 @@ class DroneHandler:
         self.cmds.add(cmd1)
         self.cmds.add(cmd2)
         self.cmds.add(cmd3)
-
-        # self.cmds.add(cmd4)
-        # self.cmds.add(cmd5)
         
         print("Uploading missions")
         self.cmds.upload()
@@ -87,7 +105,6 @@ class DroneHandler:
         self.takeoff(alt)
 
         self.change_mode("AUTO")
-
 
     def change_mode(self, mode):
         print("Changing mode from {0} to {1}...".format(self.vehicle.mode.name, mode))

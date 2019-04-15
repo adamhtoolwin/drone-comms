@@ -18,7 +18,9 @@ service Drone{
 
     void download_missions(),
 
-    void change_mode(1: string mode)
+    void change_mode(1:string mode)
+
+    void report_status(1:string drone_id)
 
     void add_delivery_mission(1:double latitude, 2:double longitude, 3:double altitude)
 }
