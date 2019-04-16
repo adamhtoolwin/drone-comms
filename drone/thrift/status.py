@@ -3,9 +3,6 @@ import glob
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument("latitude", help="The latitude of the destination")
-parser.add_argument("longitude", help="The longitude of the destination")
-parser.add_argument("altitude", help="The altitude at which the drone will fly")
 parser.add_argument("--drone_id", help="The ID of the drone, default is 2 i.e. the real drone; put 1 for simulator")
 parser.add_argument("--ait", help="Set to 1 to make destination ait main gate")
 parser.add_argument("--port", help="The port to which the thrift socket must connect. Default is 9090.")
@@ -68,12 +65,8 @@ def main():
 
     # Connect!
     transport.open()
-
-    dest_latitude = float(args.latitude)
-    dest_longitude = float(args.longitude)
-    altitude = float(args.altitude)
     
-    print("Starting status reports...")
+    print("Sending status reports...")
     client.report_status(int(args.drone_id))
 
     # print("Clearing existing missions...")
