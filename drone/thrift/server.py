@@ -57,7 +57,15 @@ class DroneHandler:
 
         self.cmds = self.vehicle.commands
 
+        self.clear_missions()
+
         self.download_missions()
+
+        self.fixed_home_location = {
+            "latitude": self.vehicle.home_location.lat,
+            "longitude": self.vehicle.home_location.lon,
+        }
+        print("First home location: {0},{1}".format(self.fixed_home_location["latitude"],self.fixed_home_location["longitude"]))
 
         self.report_status(drone_id)
 
@@ -118,36 +126,12 @@ class DroneHandler:
             "armed": self.vehicle.armed,
             "drone_id": drone_id,
         }
-        
+
         armed = self.vehicle.armed
 
         nav_post = requests.post("https://teamdronex.com/api/v1/nav_logs", data=nav_log)
 
         return armed
-
-        ### Temporarily removed loop in server function
-        # while(True):
-        #     print("Sending status to server...")
-
-        #     nav_log = {
-        #         "gps_latitude": self.vehicle.location.global_relative_frame.lat,
-        #         "gps_longitude": self.vehicle.location.global_relative_frame.lon,
-        #         "altitude": self.vehicle.location.global_relative_frame.alt,
-        #         "battery_voltage": self.vehicle.battery.voltage,
-        #         "battery_level": self.vehicle.battery.level,
-        #         "battery_current": self.vehicle.battery.current,
-        #         "ekf_ok": self.vehicle.ekf_ok,
-        #         "is_armable": self.vehicle.is_armable,
-        #         "system_status": self.vehicle.system_status.state,
-        #         "mode": self.vehicle.mode.name,
-        #         "armed": self.vehicle.armed,
-        #         "drone_id": drone_id,
-        #     }
-
-        #     nav_post = requests.post("https://teamdronex.com/api/v1/nav_logs", data=nav_log)
-
-        #     time.sleep(3)
-        ###
 
     def clear_missions(self):
         print("Clearing missions")
@@ -158,6 +142,10 @@ class DroneHandler:
         print("Downloading missions...")
         self.cmds.download()
         self.cmds.wait_ready()
+
+    def add_mission(self):
+        pass
+    
 
     def add_delivery_mission(self, dest_latitude, dest_longitude, alt):
         self.clear_missions()

@@ -7,6 +7,11 @@ namespace perl base
 namespace haxe base
 namespace netcore base
 
+struct Coordinate {
+    1: double latitude,
+    2: double longitude
+}
+
 service Drone{
     void takeoff(1:double altitude,),
     
