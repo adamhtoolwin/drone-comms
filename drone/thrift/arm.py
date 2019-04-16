@@ -65,10 +65,6 @@ def main():
 
     # Connect!
     transport.open()
-
-    dest_latitude = float(args.latitude)
-    dest_longitude = float(args.longitude)
-    altitude = float(args.altitude)
     
     print("Sending status reports...")
     client.arm()
