@@ -32,6 +32,8 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('  void change_mode(string mode)')
     print('  bool report_status(i32 drone_id)')
     print('  void add_delivery_mission(double latitude, double longitude, double altitude)')
+    print('  void arm()')
+    print('  void disarm()')
     print('')
     sys.exit(0)
 
@@ -158,6 +160,18 @@ elif cmd == 'add_delivery_mission':
         print('add_delivery_mission requires 3 args')
         sys.exit(1)
     pp.pprint(client.add_delivery_mission(eval(args[0]), eval(args[1]), eval(args[2]),))
+
+elif cmd == 'arm':
+    if len(args) != 0:
+        print('arm requires 0 args')
+        sys.exit(1)
+    pp.pprint(client.arm())
+
+elif cmd == 'disarm':
+    if len(args) != 0:
+        print('disarm requires 0 args')
+        sys.exit(1)
+    pp.pprint(client.disarm())
 
 else:
     print('Unrecognized method %s' % cmd)

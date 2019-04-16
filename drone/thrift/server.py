@@ -10,6 +10,7 @@ parser.add_argument("connection", help="The connection type, address and port to
 parser.add_argument("--port", help="The port at which the thrift socket is to be opened. Default is 9090.")
 parser.add_argument("--path", help="The complete path of the generated Thrift files. Default is /home/pi/drone-comms/base/gen-py.")
 parser.add_argument("--user", help="The user profile name. This will be used in the path to the generated Thrift files. Default is pi.")
+parser.add_argument("--drone_id", help="The ID of the drone, default is 2 i.e. the real drone; put 1 for simulator")
 args = parser.parse_args()
 
 if args.path:
@@ -26,6 +27,10 @@ else:
 port = 9090
 if args.port:
     port = args.port
+
+drone_id = 2
+if args.drone_id:
+    drone_id = int(args.drone_id)
 
 sys.path.append(path)
 
@@ -54,7 +59,19 @@ class DroneHandler:
 
         self.download_missions()
 
-        self.report_status(1)
+        self.report_status(drone_id)
+
+    def arm(self):
+        if self.vehicle.armed == False:
+            self.vehicle.armed = True
+
+        self.report_status(drone_id)
+
+    def disarm(self):
+        if self.vehicle.armed == True:
+            self.vehicle.armed = False
+        
+        self.report_status(drone_id)
 
     def report_status(self, drone_id):
         # Can call from client loop there?
