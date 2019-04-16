@@ -75,7 +75,32 @@ class DroneHandler:
 
     def report_status(self, drone_id):
         # Can call from client loop there?
-        armed = self.vehicle.armed
+        
+        # Get some vehicle attributes (state)
+        print "Autopilot Firmware version: %s" % self.vehicle.version
+        print "Autopilot capabilities (supports ftp): %s" % self.vehicle.capabilities.ftp
+        print ("Home Location: %s" % self.vehicle.home_location)
+        print "Global Location: %s" % self.vehicle.location.global_frame
+        print "Global Location (relative altitude): %s" % self.vehicle.location.global_relative_frame
+        print "Local Location: %s" % self.vehicle.location.local_frame    #NED
+        print "Attitude: %s" % self.vehicle.attitude
+        print "Velocity: %s" % self.vehicle.velocity
+        print "GPS: %s" % self.vehicle.gps_0
+        print "Groundspeed: %s" % self.vehicle.groundspeed
+        print "Airspeed: %s" % self.vehicle.airspeed
+        print "Gimbal status: %s" % self.vehicle.gimbal
+        print "Battery: %s" % self.vehicle.battery
+        print "EKF OK?: %s" % self.vehicle.ekf_ok
+        print "Last Heartbeat: %s" % self.vehicle.last_heartbeat
+        print "Rangefinder: %s" % self.vehicle.rangefinder
+        print "Rangefinder distance: %s" % self.vehicle.rangefinder.distance
+        print "Rangefinder voltage: %s" % self.vehicle.rangefinder.voltage
+        print "Heading: %s" % self.vehicle.heading
+        print "Is Armable?: %s" % self.vehicle.is_armable
+        print "System status: %s" % self.vehicle.system_status.state
+        print "Mode: %s" % self.vehicle.mode.name    # settable
+        print "Armed: %s" % self.vehicle.armed    # settable
+        print("")
 
         print("Sending one time status to server...")
 
@@ -90,9 +115,11 @@ class DroneHandler:
             "is_armable": self.vehicle.is_armable,
             "system_status": self.vehicle.system_status.state,
             "mode": self.vehicle.mode.name,
-            "armed": armed,
+            "armed": self.vehicle.armed,
             "drone_id": drone_id,
         }
+        
+        armed = self.vehicle.armed
 
         nav_post = requests.post("https://teamdronex.com/api/v1/nav_logs", data=nav_log)
 
@@ -133,6 +160,9 @@ class DroneHandler:
         self.cmds.wait_ready()
 
     def add_delivery_mission(self, dest_latitude, dest_longitude, alt):
+        self.clear_missions()
+        self.download_missions()
+
         # cmd1 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0, alt)
         cmd1 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, dest_latitude, dest_longitude, alt)
         cmd2 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, self.vehicle.home_location.lat, self.vehicle.home_location.lon, alt)
