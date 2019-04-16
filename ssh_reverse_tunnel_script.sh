@@ -1,3 +1,3 @@
 #!/bin/bash
-ssh -f -N -T -R 2210:localhost:22 ubuntu@3.0.21.193
+ssh -i ~/dronetracker.pem -f -N -T -R 2019:localhost:22 aws-webserver
 

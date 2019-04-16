@@ -66,7 +66,7 @@ def main():
     # Connect!
     transport.open()
     
-    print("Sending status reports...")
+    print("Disarming...")
     client.disarm()
 
     # Close!
