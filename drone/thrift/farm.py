@@ -15,7 +15,10 @@ parser.add_argument("--user", help="The user profile name. This will be used in 
 args = parser.parse_args()
 
 # Parsing coordinates
+# 14.3,23.2;12.3,23.2;
 print("Parsing coordinates...")
+coordinate_list = args.coordinates.split(";")
+# ['14.3,23.2', '12.3,23.2']
 
 
 # Need mission id for specifying when mission done

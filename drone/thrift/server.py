@@ -61,11 +61,11 @@ class DroneHandler:
 
         self.download_missions()
 
-        # self.fixed_home_location = {
-        #     "latitude": self.vehicle.home_location.lat,
-        #     "longitude": self.vehicle.home_location.lon,
-        # }
-        # print("First home location: {0},{1}".format(self.fixed_home_location["latitude"],self.fixed_home_location["longitude"]))
+        self.fixed_home_location = {
+            "latitude": self.vehicle.home_location.lat,
+            "longitude": self.vehicle.home_location.lon,
+        }
+        print("First home location: {0},{1}".format(self.fixed_home_location["latitude"],self.fixed_home_location["longitude"]))
 
         self.report_status(drone_id)
 
@@ -110,7 +110,9 @@ class DroneHandler:
         print "Armed: %s" % self.vehicle.armed    # settable
         print("")
 
-        print("Sending one time status to server...")
+        armed = self.vehicle.armed
+
+        print("Sending one time status to server...\n")
 
         nav_log = {
             "gps_latitude": self.vehicle.location.global_relative_frame.lat,
@@ -126,8 +128,6 @@ class DroneHandler:
             "armed": self.vehicle.armed,
             "drone_id": drone_id,
         }
-
-        armed = self.vehicle.armed
 
         nav_post = requests.post("https://teamdronex.com/api/v1/nav_logs", data=nav_log)
 
