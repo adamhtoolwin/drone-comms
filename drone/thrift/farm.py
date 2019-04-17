@@ -88,7 +88,7 @@ def main():
         lat = latlng[0]
         lng = latlng[1]
 
-        coordinate_obj = Coordinate(latitude=float(lat), longitude=float(lng), altitude=)
+        coordinate_obj = Coordinate(latitude=float(lat), longitude=float(lng), altitude=altitude)
         thrift_coordinate_list.append(coordinate_obj)
 
     print("Sending coordinates to server...")

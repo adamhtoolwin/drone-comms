@@ -54,7 +54,7 @@ Use mavproxy to forward mavlink stream from 5760 to 14550 and 14551. In this cas
 
 **NOTE:** These streams are UDP only.
 
-## Starting the dev environment
+## Development Environment
 1. Start SIM
 2. Start mavproxy.py
 3. Connect with scripts
@@ -67,5 +67,10 @@ Use mavproxy to forward mavlink stream from 5760 to 14550 and 14551. In this cas
 
 ### Starting Thrift farm on laptop
 1. python drone/thrift/farm.py "14.3,23.2 12.3,23.2" 5 --path /home/adam/drone/drone-comms/drone/thrift/gen-py --drone_id 3
+
+2. python drone/thrift/farm.py "14.079013,100.609091 14.079751,100.60958130 14.079095,100.610117" --path /home/adam/drone/drone-comms/drone/thrift/gen-py --drone_id 3
+
+### Starting Thrift server on webserver for simulator
+1. python ~/drone-comms/drone/thrift/server.py tcp:127.0.0.1:5760 --path /home/ubuntu/drone-comms/drone/thrift/gen-py
 
 

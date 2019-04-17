@@ -62,6 +62,8 @@ class DroneHandler:
 
         self.download_missions()
 
+        time.sleep(2)
+
         self.fixed_home_location = {
             "latitude": self.vehicle.home_location.lat,
             "longitude": self.vehicle.home_location.lon,
