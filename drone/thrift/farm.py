@@ -15,9 +15,9 @@ parser.add_argument("--user", help="The user profile name. This will be used in 
 args = parser.parse_args()
 
 # Parsing coordinates
-# 14.3,23.2;12.3,23.2;
+# 14.3,23.2 12.3,23.2
 print("Parsing coordinates...")
-coordinate_list = args.coordinates.split(";")
+coordinate_list = args.coordinates.split()
 # ['14.3,23.2', '12.3,23.2']
 
 
@@ -49,6 +49,7 @@ if args.port:
 # sys.path.append('/home/adam/drone/drone-comms/drone/thrift/gen-py')
 
 from drone import Drone
+from drone.ttypes import Coordinate
 
 from thrift import Thrift
 from thrift.transport import TSocket
@@ -72,27 +73,46 @@ def main():
     # Connect!
     transport.open()
 
-    print("Starting in flight status reports...")
-    while(True):
-        print("Reporting flight status...")
-        armed = client.report_status(int(args.drone_id))
-        if not armed:
-            end_mission_status_data = {
-                "status": "Done"
-            }
+    print("Clearing existing missions...")
+    client.clear_missions()
 
-            end_drone_status_data = {
-                "status": "Available"
-            }
+    print("Downloading missions...")
+    client.download_missions()
 
-            mission_endpoint = "https://teamdronex.com/api/v1/missions/%s" % mission_id
-            end_mission_post = requests.patch(mission_endpoint, data=end_mission_status_data)
+    print("Creating coordinate objects...")
+    thrift_coordinate_list = []
+    for coordinate in coordinate_list:
+        latlng = coordinate.split(",")
+        lat = latlng[0]
+        lng = latlng[1]
 
-            drone_endpoint = "https://teamdronex.com/api/v1/drone/%s" % drone_id
-            end_drone_post = requests.patch(drone_endpoint, data=end_drone_status_data)
-            break
+        coordinate_obj = Coordinate(latitude=float(lat), longitude=float(lng))
+        thrift_coordinate_list.append(coordinate_obj)
+
+    print("Sending coordinates to server...")
+    client.add_farm_mission(thrift_coordinate_list)
+
+    # print("Starting in flight status reports...")
+    # while(True):
+    #     print("Reporting flight status...")
+    #     armed = client.report_status(int(args.drone_id))
+    #     if not armed:
+    #         end_mission_status_data = {
+    #             "status": "Done"
+    #         }
+
+    #         end_drone_status_data = {
+    #             "status": "Available"
+    #         }
+
+    #         mission_endpoint = "https://teamdronex.com/api/v1/missions/%s" % mission_id
+    #         end_mission_post = requests.patch(mission_endpoint, data=end_mission_status_data)
+
+    #         drone_endpoint = "https://teamdronex.com/api/v1/drone/%s" % drone_id
+    #         end_drone_post = requests.patch(drone_endpoint, data=end_drone_status_data)
+    #         break
         
-        time.sleep(3)
+    #     time.sleep(3)
 
     # Close!
     transport.close()

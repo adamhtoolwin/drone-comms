@@ -78,6 +78,14 @@ class Iface(object):
     def disarm(self):
         pass
 
+    def add_farm_mission(self, coordinates):
+        """
+        Parameters:
+         - coordinates
+
+        """
+        pass
+
 
 class Client(Iface):
     def __init__(self, iprot, oprot=None):
@@ -366,6 +374,36 @@ class Client(Iface):
         iprot.readMessageEnd()
         return
 
+    def add_farm_mission(self, coordinates):
+        """
+        Parameters:
+         - coordinates
+
+        """
+        self.send_add_farm_mission(coordinates)
+        self.recv_add_farm_mission()
+
+    def send_add_farm_mission(self, coordinates):
+        self._oprot.writeMessageBegin('add_farm_mission', TMessageType.CALL, self._seqid)
+        args = add_farm_mission_args()
+        args.coordinates = coordinates
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_add_farm_mission(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = add_farm_mission_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        return
+
 
 class Processor(Iface, TProcessor):
     def __init__(self, handler):
@@ -381,6 +419,7 @@ class Processor(Iface, TProcessor):
         self._processMap["add_delivery_mission"] = Processor.process_add_delivery_mission
         self._processMap["arm"] = Processor.process_arm
         self._processMap["disarm"] = Processor.process_disarm
+        self._processMap["add_farm_mission"] = Processor.process_add_farm_mission
 
     def process(self, iprot, oprot):
         (name, type, seqid) = iprot.readMessageBegin()
@@ -623,6 +662,29 @@ class Processor(Iface, TProcessor):
             msg_type = TMessageType.EXCEPTION
             result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
         oprot.writeMessageBegin("disarm", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_add_farm_mission(self, seqid, iprot, oprot):
+        args = add_farm_mission_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = add_farm_mission_result()
+        try:
+            self._handler.add_farm_mission(args.coordinates)
+            msg_type = TMessageType.REPLY
+        except TTransport.TTransportException:
+            raise
+        except TApplicationException as ex:
+            logging.exception('TApplication exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = ex
+        except Exception:
+            logging.exception('Unexpected exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
+        oprot.writeMessageBegin("add_farm_mission", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
@@ -1648,6 +1710,120 @@ class disarm_result(object):
         return not (self == other)
 all_structs.append(disarm_result)
 disarm_result.thrift_spec = (
+)
+
+
+class add_farm_mission_args(object):
+    """
+    Attributes:
+     - coordinates
+
+    """
+
+
+    def __init__(self, coordinates=None,):
+        self.coordinates = coordinates
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.LIST:
+                    self.coordinates = []
+                    (_etype3, _size0) = iprot.readListBegin()
+                    for _i4 in range(_size0):
+                        _elem5 = Coordinate()
+                        _elem5.read(iprot)
+                        self.coordinates.append(_elem5)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('add_farm_mission_args')
+        if self.coordinates is not None:
+            oprot.writeFieldBegin('coordinates', TType.LIST, 1)
+            oprot.writeListBegin(TType.STRUCT, len(self.coordinates))
+            for iter6 in self.coordinates:
+                iter6.write(oprot)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(add_farm_mission_args)
+add_farm_mission_args.thrift_spec = (
+    None,  # 0
+    (1, TType.LIST, 'coordinates', (TType.STRUCT, [Coordinate, None], False), None, ),  # 1
+)
+
+
+class add_farm_mission_result(object):
+
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('add_farm_mission_result')
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(add_farm_mission_result)
+add_farm_mission_result.thrift_spec = (
 )
 fix_spec(all_structs)
 del all_structs

@@ -9,11 +9,11 @@ namespace netcore base
 
 struct Coordinate {
     1: double latitude,
-    2: double longitude
+    2: double longitude,
 }
 
 service Drone{
-    void takeoff(1:double altitude,),
+    void takeoff(1:double altitude),
     
     void land(),
 
@@ -33,5 +33,5 @@ service Drone{
 
     void disarm(),
 
-    void add_farm_mission(1:list<Coordinate>)
+    void add_farm_mission(1:list<Coordinate> coordinates),
 }

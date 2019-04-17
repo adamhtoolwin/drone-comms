@@ -62,6 +62,10 @@ Use mavproxy to forward mavlink stream from 5760 to 14550 and 14551. In this cas
 ### Starting Thrift server on own laptop
 1. python ~/drone/drone-comms/drone/thrift/server.py udp:127.0.0.1:14550 --path /home/adam/drone/drone-comms/drone/thrift/gen-py
 
-### Starting Thrift client on laptop 
+### Starting Thrift delivery on laptop 
 1. python drone/thrift/delivery.py 14.076550 100.614012 5 --path  /home/adam/drone/drone-comms/drone/thrift/gen-py --drone_id 1
+
+### Starting Thrift farm on laptop
+1. python drone/thrift/farm.py "14.3,23.2 12.3,23.2" 5 --path /home/adam/drone/drone-comms/drone/thrift/gen-py --drone_id 3
+
 

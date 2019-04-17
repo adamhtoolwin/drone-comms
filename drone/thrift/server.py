@@ -38,6 +38,7 @@ sys.path.append(path)
 
 # Thrift imports
 from drone import Drone
+from drone.ttypes import Coordinate
 
 from thrift.transport import TSocket
 from thrift.transport import TTransport
@@ -146,6 +147,10 @@ class DroneHandler:
     def add_waypoint(self, latitude, longitude, alt):
         cmd = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, latitude, longitude, alt)
         self.cmds.add(cmd)
+
+    def add_farm_mission(self, coordinate_list):
+        for count, coordinate in enumerate(coordinate_list):
+            print("Coordinate {0}: {1},{2}".format(count, coordinate.latitude, coordinate.longitude))
 
     def add_delivery_mission(self, dest_latitude, dest_longitude, alt):
         self.clear_missions()

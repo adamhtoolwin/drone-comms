@@ -34,6 +34,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('  void add_delivery_mission(double latitude, double longitude, double altitude)')
     print('  void arm()')
     print('  void disarm()')
+    print('  void add_farm_mission( coordinates)')
     print('')
     sys.exit(0)
 
@@ -172,6 +173,12 @@ elif cmd == 'disarm':
         print('disarm requires 0 args')
         sys.exit(1)
     pp.pprint(client.disarm())
+
+elif cmd == 'add_farm_mission':
+    if len(args) != 1:
+        print('add_farm_mission requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.add_farm_mission(eval(args[0]),))
 
 else:
     print('Unrecognized method %s' % cmd)
