@@ -143,9 +143,9 @@ class DroneHandler:
         self.cmds.download()
         self.cmds.wait_ready()
 
-    def add_mission(self):
-        pass
-    
+    def add_waypoint(self, latitude, longitude, alt):
+        cmd = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, latitude, longitude, alt)
+        self.cmds.add(cmd)
 
     def add_delivery_mission(self, dest_latitude, dest_longitude, alt):
         self.clear_missions()
