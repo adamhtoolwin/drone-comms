@@ -6,6 +6,7 @@ import requests
 
 parser = argparse.ArgumentParser()
 parser.add_argument("coordinates", help="The coordinates for the drone to patrol")
+parser.add_argument("altitude", help="The altitude at which the drone will patrol")
 parser.add_argument("mission_id", help="The longitude of the destination")
 parser.add_argument("--drone_id", help="The ID of the drone, default is 2 i.e. the real drone; put 1 for simulator")
 parser.add_argument("--ait", help="Set to 1 to make destination ait main gate")
@@ -81,12 +82,13 @@ def main():
 
     print("Creating coordinate objects...")
     thrift_coordinate_list = []
+    altitude = float(args.altitude)
     for coordinate in coordinate_list:
         latlng = coordinate.split(",")
         lat = latlng[0]
         lng = latlng[1]
 
-        coordinate_obj = Coordinate(latitude=float(lat), longitude=float(lng))
+        coordinate_obj = Coordinate(latitude=float(lat), longitude=float(lng), altitude=)
         thrift_coordinate_list.append(coordinate_obj)
 
     print("Sending coordinates to server...")

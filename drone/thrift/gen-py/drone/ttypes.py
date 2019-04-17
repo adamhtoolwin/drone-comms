@@ -21,13 +21,15 @@ class Coordinate(object):
     Attributes:
      - latitude
      - longitude
+     - altitude
 
     """
 
 
-    def __init__(self, latitude=None, longitude=None,):
+    def __init__(self, latitude=None, longitude=None, altitude=None,):
         self.latitude = latitude
         self.longitude = longitude
+        self.altitude = altitude
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -48,6 +50,11 @@ class Coordinate(object):
                     self.longitude = iprot.readDouble()
                 else:
                     iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.DOUBLE:
+                    self.altitude = iprot.readDouble()
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -65,6 +72,10 @@ class Coordinate(object):
         if self.longitude is not None:
             oprot.writeFieldBegin('longitude', TType.DOUBLE, 2)
             oprot.writeDouble(self.longitude)
+            oprot.writeFieldEnd()
+        if self.altitude is not None:
+            oprot.writeFieldBegin('altitude', TType.DOUBLE, 3)
+            oprot.writeDouble(self.altitude)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -87,6 +98,7 @@ Coordinate.thrift_spec = (
     None,  # 0
     (1, TType.DOUBLE, 'latitude', None, None, ),  # 1
     (2, TType.DOUBLE, 'longitude', None, None, ),  # 2
+    (3, TType.DOUBLE, 'altitude', None, None, ),  # 3
 )
 fix_spec(all_structs)
 del all_structs

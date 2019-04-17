@@ -149,12 +149,49 @@ class DroneHandler:
         self.cmds.add(cmd)
 
     def add_farm_mission(self, coordinate_list):
+        self.clear_missions()
+        self.download_missions()
+
+        starting_lat = self.vehicle.location.global_relative_frame.lat
+        starting_lon = self.vehicle.location.global_relative_frame.lon
+
+        first_lat = coordinate_list[0].latitude
+        first_lon = coordinate_list[0].longitude
+        starting_alt = coordinate_list[0].altitude
+
         for count, coordinate in enumerate(coordinate_list):
-            print("Coordinate {0}: {1},{2}".format(count, coordinate.latitude, coordinate.longitude))
+            lat = coordinate.latitude
+            lng = coordinate.longitude
+            alt = coordinate.altitude
+            print("Coordinate {0}: {1},{2},{3}".format(count, lat, lng, alt))
+
+            # Create mission for point
+            cmd = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, lat, lng, alt)
+            self.cmds.add(cmd)
+
+        # Add final waypoint to first point
+        return_to_first_wp_cmd = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, first_lat, first_lon, starting_alt)
+        return_to_home_cmd = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_RETURN_TO_LAUNCH, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        
+        # return_to_home_cmd = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, starting_lat, starting_lon, starting_alt)
+        # land_cmd = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, starting_lat, starting_lon, starting_alt)        
+        
+        print("Uploading missions...")
+        self.cmds.upload()
+        self.cmds.wait_ready()
+
+        self.takeoff(starting_alt)
+
+        self.change_mode("AUTO")
 
     def add_delivery_mission(self, dest_latitude, dest_longitude, alt):
         self.clear_missions()
         self.download_missions()
+        
+        # Store first location to return cuz home location is dangerous
+        # NO MORE DANGER
+        # starting_lat = self.vehicle.location.global_relative_frame.lat
+        # starting_lon = self.vehicle.location.global_relative_frame.lon
 
         # cmd1 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0, alt)
         cmd1 = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, dest_latitude, dest_longitude, alt)
@@ -167,7 +204,7 @@ class DroneHandler:
         self.cmds.add(cmd2)
         self.cmds.add(cmd3)
         
-        print("Uploading missions")
+        print("Uploading missions...")
         self.cmds.upload()
         self.cmds.wait_ready()
 

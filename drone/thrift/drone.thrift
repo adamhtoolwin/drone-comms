@@ -10,6 +10,7 @@ namespace netcore base
 struct Coordinate {
     1: double latitude,
     2: double longitude,
+    3: double altitude,
 }
 
 service Drone{
