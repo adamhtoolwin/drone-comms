@@ -88,8 +88,12 @@ def main():
 
     # client.fly_to(14.076550, 100.614012, 50)
 
+    transport.close()
+
     print("Starting in flight status reports...")
     while(True):
+        transport.open()
+
         print("Reporting flight status...")
         armed = client.report_status(int(args.drone_id))
         if not armed:
@@ -109,7 +113,7 @@ def main():
 
             client.change_mode("RTL")
             break
-        
+        transport.close()
         time.sleep(3)
 
     # Close!

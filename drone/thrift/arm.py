@@ -53,7 +53,7 @@ def main():
     transport = TSocket.TSocket('localhost', port)
 
     # Buffering is critical. Raw sockets are very slow
-    transport = TTransport.TFramedTransport(transport)
+    transport = TTransport.TBufferedTransport(transport)
 
     # Wrap in a protocol
     protocol = TBinaryProtocol.TBinaryProtocol(transport)
