@@ -53,15 +53,13 @@ def main():
     transport = TSocket.TSocket('localhost', port)
 
     # Buffering is critical. Raw sockets are very slow
-    transport = TTransport.TBufferedTransport(transport)
+    transport = TTransport.TFramedTransport(transport)
 
     # Wrap in a protocol
     protocol = TBinaryProtocol.TBinaryProtocol(transport)
 
     # Create a client to use the protocol encoder
     client = Drone.Client(protocol)
-
-    status_client = Drone.Client(protocol)
 
     # Connect!
     transport.open()
