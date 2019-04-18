@@ -235,8 +235,12 @@ class DroneHandler:
         self.vehicle.armed = True
 
         # Confirm vehicle armed before attempting to take off
+        count = 0
         while not self.vehicle.armed:
             print " Waiting for arming..."
+            count = count + 1
+            if count > 5:
+                return
             time.sleep(1)
 
         print("Taking off to {0}...".format(str(alt)))
