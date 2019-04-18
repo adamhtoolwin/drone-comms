@@ -106,6 +106,8 @@ def main():
 
             drone_endpoint = "https://teamdronex.com/api/v1/drone/%s" % drone_id
             end_drone_post = requests.patch(drone_endpoint, data=end_drone_status_data)
+
+            client.change_mode("RTL")
             break
         
         time.sleep(3)
