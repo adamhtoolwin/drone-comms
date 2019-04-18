@@ -43,7 +43,7 @@ from drone.ttypes import Coordinate
 from thrift.transport import TSocket
 from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
-from thrift.server import TServer
+from thrift.server import TServer, TNonblockingServer
 
 # Dronekit imports
 from dronekit import connect, VehicleMode, Command, LocationGlobalRelative
@@ -272,7 +272,7 @@ if __name__ == '__main__':
     tfactory = TTransport.TBufferedTransportFactory()
     pfactory = TBinaryProtocol.TBinaryProtocolFactory()
 
-    server = TServer.TSimpleServer(processor, transport, tfactory, pfactory)
+    server = TNonblockingServer(processor, transport, tfactory, pfactory)
 
     print('Starting the server...')
     server.serve()
