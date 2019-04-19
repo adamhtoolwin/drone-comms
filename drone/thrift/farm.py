@@ -7,7 +7,7 @@ import requests
 parser = argparse.ArgumentParser()
 parser.add_argument("coordinates", help="The coordinates for the drone to patrol")
 parser.add_argument("altitude", help="The altitude at which the drone will patrol")
-parser.add_argument("mission_id", help="The longitude of the destination")
+parser.add_argument("mission_id", help="The mission ID")
 parser.add_argument("--drone_id", help="The ID of the drone, default is 2 i.e. the real drone; put 1 for simulator")
 parser.add_argument("--ait", help="Set to 1 to make destination ait main gate")
 parser.add_argument("--port", help="The port to which the thrift socket must connect. Default is 9090.")
@@ -19,6 +19,7 @@ args = parser.parse_args()
 # 14.3,23.2 12.3,23.2
 print("Parsing coordinates...")
 coordinate_list = args.coordinates.split()
+print("Parsed coordinate list: {0}".format(coordinate_list))
 # ['14.3,23.2', '12.3,23.2']
 
 
@@ -93,28 +94,34 @@ def main():
 
     print("Sending coordinates to server...")
     client.add_farm_mission(thrift_coordinate_list)
+    
+    transport.close()
 
-    # print("Starting in flight status reports...")
-    # while(True):
-    #     print("Reporting flight status...")
-    #     armed = client.report_status(int(args.drone_id))
-    #     if not armed:
-    #         end_mission_status_data = {
-    #             "status": "Done"
-    #         }
+    print("Starting in flight status reports...")
+    while(True):
+        transport.open()
 
-    #         end_drone_status_data = {
-    #             "status": "Available"
-    #         }
+        print("Reporting flight status...")
+        armed = client.report_status(int(args.drone_id))
+        if not armed:
+            end_mission_status_data = {
+                "status": "Done"
+            }
 
-    #         mission_endpoint = "https://teamdronex.com/api/v1/missions/%s" % mission_id
-    #         end_mission_post = requests.patch(mission_endpoint, data=end_mission_status_data)
+            end_drone_status_data = {
+                "status": "Available"
+            }
 
-    #         drone_endpoint = "https://teamdronex.com/api/v1/drone/%s" % drone_id
-    #         end_drone_post = requests.patch(drone_endpoint, data=end_drone_status_data)
-    #         break
-        
-    #     time.sleep(3)
+            mission_endpoint = "https://teamdronex.com/api/v1/missions/%s" % mission_id
+            end_mission_post = requests.patch(mission_endpoint, data=end_mission_status_data)
+
+            drone_endpoint = "https://teamdronex.com/api/v1/drone/%s" % drone_id
+            end_drone_post = requests.patch(drone_endpoint, data=end_drone_status_data)
+
+            client.change_mode("RTL")
+            break
+        transport.close()
+        time.sleep(3)
 
     # Close!
     transport.close()
