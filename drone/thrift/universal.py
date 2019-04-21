@@ -3,18 +3,13 @@ import glob
 import argparse
 
 parser = argparse.ArgumentParser()
+parser.add_argument("command", help="The command to execute")
 parser.add_argument("--drone_id", help="The ID of the drone, default is 2 i.e. the real drone; put 1 for simulator")
 parser.add_argument("--ait", help="Set to 1 to make destination ait main gate")
 parser.add_argument("--port", help="The port to which the thrift socket must connect. Default is 9090.")
 parser.add_argument("--path", help="The complete path of the generated Thrift files. Default is /home/ubuntu/drone-comms/base/gen-py.")
 parser.add_argument("--user", help="The user profile name. This will be used in the path to the generated Thrift files. Default is ubuntu.")
 args = parser.parse_args()
-
-# TODO
-if args.ait:
-    dest_latitude = 14.076550
-    dest_longitude = 100.614012
-#
 
 drone_id = 2
 if args.drone_id:
@@ -64,7 +59,7 @@ def main():
     # Connect!
     transport.open()
     
-    print("Arming...")
+    print("Executing {0}...".format(args.command))
     client.arm()
 
     # Close!
@@ -76,16 +71,4 @@ if __name__ == '__main__':
         main()
     except Thrift.TException as tx:
         print("%s" % tx.message)
-
-        error_mission_status_data = {
-            "status": "Unable to connect"
-        }
-
-        error_drone_status_data = {
-            "status": "Unable to connect"
-        }
-
-        error_mission_patch = requests.patch(mission_endpoint, data=end_mission_status_data)
-
-        error_drone_patch = requests.patch(drone_endpoint, data=end_drone_status_data)  
         # print(f'{tx.message}')

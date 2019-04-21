@@ -132,4 +132,16 @@ if __name__ == '__main__':
         main()
     except Thrift.TException as tx:
         print("%s" % tx.message)
+
+        error_mission_status_data = {
+            "status": "Unable to connect"
+        }
+
+        error_drone_status_data = {
+            "status": "Unable to connect"
+        }
+
+        error_mission_patch = requests.patch(mission_endpoint, data=end_mission_status_data)
+
+        error_drone_patch = requests.patch(drone_endpoint, data=end_drone_status_data)  
         # print(f'{tx.message}')
