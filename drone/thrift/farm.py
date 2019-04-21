@@ -48,6 +48,8 @@ port = 9090
 if args.port:
     port = int(args.port)
 
+mission_endpoint = "https://teamdronex.com/api/v1/missions/%s" % mission_id
+drone_endpoint = "https://teamdronex.com/api/v1/drone/%s" % drone_id
 # sys.path.append('/home/adam/drone/drone-comms/drone/thrift/gen-py')
 
 from drone import Drone
@@ -96,9 +98,6 @@ def main():
     client.add_farm_mission(thrift_coordinate_list)
     
     transport.close()
-
-    mission_endpoint = "https://teamdronex.com/api/v1/missions/%s" % mission_id
-    drone_endpoint = "https://teamdronex.com/api/v1/drone/%s" % drone_id
 
     print("Starting in flight status reports...")
     while(True):

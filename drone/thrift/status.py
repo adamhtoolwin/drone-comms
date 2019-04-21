@@ -1,6 +1,7 @@
 import sys
 import glob
 import argparse
+import requests
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--drone_id", help="The ID of the drone, default is 2 i.e. the real drone; put 1 for simulator")
@@ -9,6 +10,7 @@ parser.add_argument("--port", help="The port to which the thrift socket must con
 parser.add_argument("--path", help="The complete path of the generated Thrift files. Default is /home/ubuntu/drone-comms/base/gen-py.")
 parser.add_argument("--user", help="The user profile name. This will be used in the path to the generated Thrift files. Default is ubuntu.")
 args = parser.parse_args()
+
 
 # TODO
 if args.ait:
@@ -19,6 +21,8 @@ if args.ait:
 drone_id = 2
 if args.drone_id:
     drone_id = args.drone_id
+
+drone_endpoint = "https://teamdronex.com/api/v1/drone/%s" % drone_id
 
 if args.path:
     path = args.path
@@ -70,8 +74,6 @@ def main():
     # Close!
     transport.close()
 
-    drone_endpoint = "https://teamdronex.com/api/v1/drone/%s" % drone_id
-
 if __name__ == '__main__':
     try:
         main()
@@ -82,6 +84,7 @@ if __name__ == '__main__':
 
         success_drone_patch = requests.patch(drone_endpoint, data=success_drone_status_data) 
     except Thrift.TException as tx:
+        print("ERROR!\n")
         print("%s" % tx.message)
 
         error_drone_status_data = {

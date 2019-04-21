@@ -20,6 +20,8 @@ drone_id = 2
 if args.drone_id:
     drone_id = args.drone_id
 
+drone_endpoint = "https://teamdronex.com/api/v1/drone/%s" % drone_id
+
 if args.path:
     path = args.path
 else:
@@ -69,9 +71,6 @@ def main():
 
     # Close!
     transport.close()
-
-    drone_endpoint = "https://teamdronex.com/api/v1/drone/%s" % drone_id
-
 
 if __name__ == '__main__':
     try:
