@@ -78,6 +78,9 @@ class Iface(object):
     def disarm(self):
         pass
 
+    def check_status(self):
+        pass
+
     def add_farm_mission(self, coordinates):
         """
         Parameters:
@@ -374,6 +377,30 @@ class Client(Iface):
         iprot.readMessageEnd()
         return
 
+    def check_status(self):
+        self.send_check_status()
+        self.recv_check_status()
+
+    def send_check_status(self):
+        self._oprot.writeMessageBegin('check_status', TMessageType.CALL, self._seqid)
+        args = check_status_args()
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_check_status(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = check_status_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        return
+
     def add_farm_mission(self, coordinates):
         """
         Parameters:
@@ -419,6 +446,7 @@ class Processor(Iface, TProcessor):
         self._processMap["add_delivery_mission"] = Processor.process_add_delivery_mission
         self._processMap["arm"] = Processor.process_arm
         self._processMap["disarm"] = Processor.process_disarm
+        self._processMap["check_status"] = Processor.process_check_status
         self._processMap["add_farm_mission"] = Processor.process_add_farm_mission
 
     def process(self, iprot, oprot):
@@ -662,6 +690,29 @@ class Processor(Iface, TProcessor):
             msg_type = TMessageType.EXCEPTION
             result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
         oprot.writeMessageBegin("disarm", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_check_status(self, seqid, iprot, oprot):
+        args = check_status_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = check_status_result()
+        try:
+            self._handler.check_status()
+            msg_type = TMessageType.REPLY
+        except TTransport.TTransportException:
+            raise
+        except TApplicationException as ex:
+            logging.exception('TApplication exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = ex
+        except Exception:
+            logging.exception('Unexpected exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
+        oprot.writeMessageBegin("check_status", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
@@ -1710,6 +1761,92 @@ class disarm_result(object):
         return not (self == other)
 all_structs.append(disarm_result)
 disarm_result.thrift_spec = (
+)
+
+
+class check_status_args(object):
+
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('check_status_args')
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(check_status_args)
+check_status_args.thrift_spec = (
+)
+
+
+class check_status_result(object):
+
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('check_status_result')
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(check_status_result)
+check_status_result.thrift_spec = (
 )
 
 

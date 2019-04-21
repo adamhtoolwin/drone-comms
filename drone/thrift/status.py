@@ -61,32 +61,32 @@ def main():
     # Create a client to use the protocol encoder
     client = Drone.Client(protocol)
 
-    status_client = Drone.Client(protocol)
-
     # Connect!
     transport.open()
     
-    print("Sending status reports...")
-    client.report_status(int(args.drone_id))
-
-    # print("Clearing existing missions...")
-    # client.clear_missions()
-
-    # print("Downloading missions...")
-    # client.download_missions()
-
-    # print("Add mission to {0}, {1} at {2} metres".format(args.latitude, args.longitude, args.altitude))
-    # client.add_delivery_mission(dest_latitude, dest_longitude, altitude)
-
-    # client.fly_to(14.076550, 100.614012, 50)
+    print("Checking status...")
+    client.check_status()
 
     # Close!
     transport.close()
 
+    drone_endpoint = "https://teamdronex.com/api/v1/drone/%s" % drone_id
 
 if __name__ == '__main__':
     try:
         main()
+
+        success_drone_status_data = {
+            "status": "Available"
+        }
+
+        success_drone_patch = requests.patch(drone_endpoint, data=success_drone_status_data) 
     except Thrift.TException as tx:
         print("%s" % tx.message)
+
+        error_drone_status_data = {
+            "status": "Unable to connect"
+        }
+
+        error_drone_patch = requests.patch(drone_endpoint, data=error_drone_status_data)  
         # print(f'{tx.message}')

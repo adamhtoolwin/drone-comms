@@ -70,7 +70,6 @@ def main():
     # Close!
     transport.close()
 
-    mission_endpoint = "https://teamdronex.com/api/v1/missions/%s" % mission_id
     drone_endpoint = "https://teamdronex.com/api/v1/drone/%s" % drone_id
 
 
@@ -80,15 +79,9 @@ if __name__ == '__main__':
     except Thrift.TException as tx:
         print("%s" % tx.message)
 
-        error_mission_status_data = {
-            "status": "Unable to connect"
-        }
-
         error_drone_status_data = {
             "status": "Unable to connect"
         }
 
-        error_mission_patch = requests.patch(mission_endpoint, data=end_mission_status_data)
-
-        error_drone_patch = requests.patch(drone_endpoint, data=end_drone_status_data)  
+        error_drone_patch = requests.patch(drone_endpoint, data=error_drone_patch)  
         # print(f'{tx.message}')

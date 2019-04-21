@@ -33,6 +33,8 @@ service Drone{
     void arm(),
 
     void disarm(),
+    
+    void check_status(),
 
     void add_farm_mission(1:list<Coordinate> coordinates),
 }
