@@ -127,6 +127,8 @@ if __name__ == '__main__':
     except Thrift.TException as tx:
         print("%s" % tx.message)
 
+        time.sleep(1)
+        
         error_mission_status_data = {
             "status": "Unable to connect"
         }
