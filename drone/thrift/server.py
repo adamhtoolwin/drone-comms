@@ -13,6 +13,9 @@ parser.add_argument("--user", help="The user profile name. This will be used in 
 parser.add_argument("--drone_id", help="The ID of the drone, default is 2 i.e. the real drone; put 1 for simulator")
 args = parser.parse_args()
 
+mission_endpoint = "https://teamdronex.com/api/v1/missions/%s" % mission_id
+drone_endpoint = "https://teamdronex.com/api/v1/drone/%s" % drone_id
+
 if args.path:
     path = args.path
 else:
@@ -240,7 +243,19 @@ class DroneHandler:
             print " Waiting for arming..."
             count = count + 1
             if count > 5:
+                error_mission_status_data = {
+                    "status": "Unable to arm"
+                }
+
+                error_drone_status_data = {
+                    "status": "Unable to arm"
+                }
+
+                error_mission_patch = requests.patch(mission_endpoint, data=end_mission_status_data)
+
+                error_drone_patch = requests.patch(drone_endpoint, data=end_drone_status_data) 
                 return
+            
             time.sleep(1)
 
         print("Taking off to {0}...".format(str(alt)))

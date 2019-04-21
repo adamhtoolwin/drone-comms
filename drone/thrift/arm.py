@@ -70,6 +70,9 @@ def main():
     # Close!
     transport.close()
 
+    mission_endpoint = "https://teamdronex.com/api/v1/missions/%s" % mission_id
+    drone_endpoint = "https://teamdronex.com/api/v1/drone/%s" % drone_id
+
 
 if __name__ == '__main__':
     try:
