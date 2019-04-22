@@ -21,7 +21,6 @@ p.start(100)
 s.start(100)
 
 def forward(tf):
-
     GPIO.output(IN1, GPIO.HIGH)
     GPIO.output(IN2, GPIO.LOW)
     GPIO.output(IN3, GPIO.HIGH)

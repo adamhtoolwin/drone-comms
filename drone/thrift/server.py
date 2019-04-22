@@ -71,7 +71,20 @@ class DroneHandler:
         print("First home location: {0},{1}".format(self.fixed_home_location["latitude"],self.fixed_home_location["longitude"]))
 
         self.report_status(drone_id)
-    
+
+        msg = self.vehicle.message_factory.command_long_encode(
+            0, 0,    # target_system, target_component
+            mavutil.mavlink.MAV_CMD_DO_SET_SERVO, #command
+            0, #confirmation
+            5,    # param 1, yaw in degrees
+            1900,          # param 2, yaw speed deg/s
+            0,          # param 3, direction -1 ccw, 1 cw
+            0, # param 4, relative offset 1, absolute angle 0
+            0, 0, 0)    # param 5 ~ 7 not used
+            
+        # send command to vehicle
+        self.vehicle.send_mavlink(msg)
+
     def check_status(self):
         print("Arming...")
         if self.vehicle.armed == False:
