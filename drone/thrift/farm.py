@@ -97,6 +97,8 @@ def main():
                 "longitude": float(lng),
             }
 
+            print("First waypoint is {0},{1}".format(first_coordinate["latitude"], first_coordinate["longitude"]))
+
         coordinate_obj = Coordinate(latitude=float(lat), longitude=float(lng), altitude=altitude)
         thrift_coordinate_list.append(coordinate_obj)
 
