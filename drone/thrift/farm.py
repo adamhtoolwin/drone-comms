@@ -53,7 +53,7 @@ drone_endpoint = "https://teamdronex.com/api/v1/drone/%s" % drone_id
 # sys.path.append('/home/adam/drone/drone-comms/drone/thrift/gen-py')
 
 from drone import Drone
-from drone.ttypes import Coordinate
+from drone.ttypes import Coordinate, Status
 
 from thrift import Thrift
 from thrift.transport import TSocket
