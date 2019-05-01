@@ -68,11 +68,11 @@ class DroneHandler:
 
         time.sleep(2)
 
-        self.fixed_home_location = {
-            "latitude": self.vehicle.home_location.lat,
-            "longitude": self.vehicle.home_location.lon,
-        }
-        print("First home location: {0},{1}".format(self.fixed_home_location["latitude"],self.fixed_home_location["longitude"]))
+        # self.fixed_home_location = {
+        #     "latitude": self.vehicle.home_location.lat,
+        #     "longitude": self.vehicle.home_location.lon,
+        # }
+        # print("First home location: {0},{1}".format(self.fixed_home_location["latitude"],self.fixed_home_location["longitude"]))
 
         self.report_status(drone_id)
 
