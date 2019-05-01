@@ -163,7 +163,7 @@ class DroneHandler:
         gps_latitude = self.vehicle.location.global_relative_frame.lat
         gps_longitude = self.vehicle.location.global_relative_frame.lon
         altitude = self.vehicle.location.global_relative_frame.alt
-        retrieved_date = datetime.datetime.now()
+        retrieved_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S %f')
 
         status_obj = Status(armed=armed, latitude=float(gps_latitude), longitude=float(gps_longitude), altitude=altitude, datetime=retrieved_date)
 
