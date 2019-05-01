@@ -157,7 +157,8 @@ class DroneHandler:
         }
 
         nav_post = requests.post("https://teamdronex.com/api/v1/nav_logs", data=nav_log)
-
+        
+        print("\nConstructing Status...")
         armed = self.vehicle.armed
         gps_latitude = self.vehicle.location.global_relative_frame.lat
         gps_longitude = self.vehicle.location.global_relative_frame.lon
@@ -166,6 +167,7 @@ class DroneHandler:
 
         status_obj = Status(armed=armed, latitude=float(gps_latitude), longitude=float(gps_longitude), altitude=altitude, datetime=retrieved_date)
 
+        print("Constructed Status and sent")
         return status_obj
 
     def clear_missions(self):
