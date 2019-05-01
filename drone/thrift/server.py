@@ -15,7 +15,7 @@ parser.add_argument("--user", help="The user profile name. This will be used in 
 parser.add_argument("--drone_id", help="The ID of the drone, default is 2 i.e. the real drone; put 1 for simulator")
 args = parser.parse_args()
 
-logging.basicConfig(filename='mission.log',level=logging.INFO)
+logging.basicConfig(filename='mission.log',level=logging.DEBUG)
 
 if args.path:
     path = args.path
