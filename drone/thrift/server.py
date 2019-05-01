@@ -224,7 +224,6 @@ class DroneHandler:
         self.change_mode("AUTO")
 
     def add_delivery_mission(self, dest_latitude, dest_longitude, alt):
-        logging.info('Mission parameters received')
         self.clear_missions()
         self.download_missions()
         
