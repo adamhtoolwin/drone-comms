@@ -4,6 +4,7 @@ import sys
 import time
 import argparse
 import requests
+import logging
 
 parser = argparse.ArgumentParser()
 parser.add_argument("connection", help="The connection type, address and port to be used to the Pixhawk")
@@ -12,6 +13,8 @@ parser.add_argument("--path", help="The complete path of the generated Thrift fi
 parser.add_argument("--user", help="The user profile name. This will be used in the path to the generated Thrift files. Default is pi.")
 parser.add_argument("--drone_id", help="The ID of the drone, default is 2 i.e. the real drone; put 1 for simulator")
 args = parser.parse_args()
+
+logging.basicConfig(filename='mission.log',level=logging.INFO)
 
 if args.path:
     path = args.path
@@ -210,6 +213,7 @@ class DroneHandler:
         self.change_mode("AUTO")
 
     def add_delivery_mission(self, dest_latitude, dest_longitude, alt):
+        logging.info('Mission parameters received')
         self.clear_missions()
         self.download_missions()
         

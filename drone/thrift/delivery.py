@@ -3,6 +3,15 @@ import glob
 import argparse
 import time
 import requests
+import logging
+import datetime
+
+logging.basicConfig(filename='mission.log',level=logging.DEBUG, 
+                    format='%(asctime)s.%(msecs)03d %(levelname)-8s %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S'
+                    )
+
+start_time = datetime.datetime.now()
 
 parser = argparse.ArgumentParser()
 parser.add_argument("latitude", help="The latitude of the destination")
@@ -86,6 +95,7 @@ def main():
     print("Downloading missions...")
     client.download_missions()
 
+    send_time = datetime.datetime.now()
     print("Add mission to {0}, {1} at {2} metres".format(args.latitude, args.longitude, args.altitude))
     client.add_delivery_mission(dest_latitude, dest_longitude, altitude)
 
