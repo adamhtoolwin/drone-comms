@@ -5,6 +5,7 @@ import time
 import argparse
 import requests
 import logging
+import datetime
 
 parser = argparse.ArgumentParser()
 parser.add_argument("connection", help="The connection type, address and port to be used to the Pixhawk")
@@ -41,7 +42,7 @@ sys.path.append(path)
 
 # Thrift imports
 from drone import Drone
-from drone.ttypes import Coordinate
+from drone.ttypes import Coordinate, Status
 
 from thrift.transport import TSocket
 from thrift.transport import TTransport
@@ -95,6 +96,9 @@ class DroneHandler:
 
         self.report_status(drone_id)
 
+    def start_camera(self):
+        print("Starting Camera")
+
     def arm(self):
         if self.vehicle.armed == False:
             self.vehicle.armed = True
@@ -135,8 +139,8 @@ class DroneHandler:
         print "Mode: %s" % self.vehicle.mode.name    # settable
         print "Armed: %s" % self.vehicle.armed    # settable
         print("")
+        
 
-        armed = self.vehicle.armed
 
         print("Sending one time status to server...\n")
 
@@ -157,7 +161,15 @@ class DroneHandler:
 
         nav_post = requests.post("https://teamdronex.com/api/v1/nav_logs", data=nav_log)
 
-        return armed
+        armed = self.vehicle.armed
+        gps_latitude = self.vehicle.location.global_relative_frame.lat
+        gps_longitude = self.vehicle.location.global_relative_frame.lon
+        altitude = self.vehicle.location.global_relative_frame.alt
+        retrieved_date = datetime.datetime.now()
+
+        status_obj = Status(armed=armed, latitude=float(gps_latitude), longitude=float(gps_longitude), altitude=altitude, datetime=retrieved_date)
+
+        return status_obj
 
     def clear_missions(self):
         print("Clearing missions")

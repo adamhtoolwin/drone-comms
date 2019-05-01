@@ -22,6 +22,8 @@ struct Status {
 }
 
 service Drone{
+    void start_camera()
+
     void takeoff(1:double altitude),
     
     void land(),

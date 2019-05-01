@@ -86,10 +86,16 @@ def main():
     print("Creating coordinate objects...")
     thrift_coordinate_list = []
     altitude = float(args.altitude)
-    for coordinate in coordinate_list:
+    for count, coordinate in enumerate(coordinate_list):
         latlng = coordinate.split(",")
         lat = latlng[0]
         lng = latlng[1]
+
+        if count == 0:
+            first_coordinate = {
+                "latitude": float(lat),
+                "longitude": float(lng),
+            }
 
         coordinate_obj = Coordinate(latitude=float(lat), longitude=float(lng), altitude=altitude)
         thrift_coordinate_list.append(coordinate_obj)
@@ -104,8 +110,12 @@ def main():
         transport.open()
 
         print("Reporting flight status...")
-        armed = client.report_status(int(args.drone_id))
-        if not armed:
+        status_obj = client.report_status(int(args.drone_id))
+
+        if first_coordinate["latitude"]-0.0001 <= status_obj.latitude <= first_coordinate["latitude"]+0.0001 and first_coordinate["longitude"]-0.0001 <= status_obj.latitude <= first_coordinate["longitude"]+0.0001:
+            
+
+        if not status_obj.armed:
             end_mission_status_data = {
                 "status": "Done"
             }

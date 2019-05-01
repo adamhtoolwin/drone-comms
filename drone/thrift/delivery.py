@@ -108,8 +108,9 @@ def main():
         transport.open()
 
         print("Reporting flight status...")
-        armed = client.report_status(int(args.drone_id))
-        if not armed:
+        status_obj = client.report_status(int(args.drone_id))
+
+        if not status_obj.armed:
             end_mission_status_data = {
                 "status": "Done"
             }

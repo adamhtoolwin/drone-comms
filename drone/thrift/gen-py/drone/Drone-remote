@@ -24,6 +24,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('Usage: ' + sys.argv[0] + ' [-h host[:port]] [-u url] [-f[ramed]] [-s[sl]] [-novalidate] [-ca_certs certs] [-keyfile keyfile] [-certfile certfile] function [arg1 [arg2...]]')
     print('')
     print('Functions:')
+    print('  void start_camera()')
     print('  void takeoff(double altitude)')
     print('  void land()')
     print('  void fly_to(double latitude, double longitude, double altitude)')
@@ -115,7 +116,13 @@ protocol = TBinaryProtocol(transport)
 client = Drone.Client(protocol)
 transport.open()
 
-if cmd == 'takeoff':
+if cmd == 'start_camera':
+    if len(args) != 0:
+        print('start_camera requires 0 args')
+        sys.exit(1)
+    pp.pprint(client.start_camera())
+
+elif cmd == 'takeoff':
     if len(args) != 1:
         print('takeoff requires 1 args')
         sys.exit(1)
