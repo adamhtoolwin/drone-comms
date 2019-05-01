@@ -115,6 +115,7 @@ def main():
         status_obj = client.report_status(int(args.drone_id))
 
         if first_coordinate["latitude"]-0.0001 <= status_obj.latitude <= first_coordinate["latitude"]+0.0001 and first_coordinate["longitude"]-0.0001 <= status_obj.latitude <= first_coordinate["longitude"]+0.0001:
+            print("Requesting camera start...")
             client.start_camera()
 
         if not status_obj.armed:
