@@ -4,7 +4,6 @@ import sys
 import time
 import argparse
 import requests
-import logging
 import datetime
 
 parser = argparse.ArgumentParser()
@@ -14,8 +13,6 @@ parser.add_argument("--path", help="The complete path of the generated Thrift fi
 parser.add_argument("--user", help="The user profile name. This will be used in the path to the generated Thrift files. Default is pi.")
 parser.add_argument("--drone_id", help="The ID of the drone, default is 2 i.e. the real drone; put 1 for simulator")
 args = parser.parse_args()
-
-logging.basicConfig(filename='mission.log',level=logging.DEBUG)
 
 if args.path:
     path = args.path
