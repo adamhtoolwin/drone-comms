@@ -93,12 +93,122 @@ class Coordinate(object):
 
     def __ne__(self, other):
         return not (self == other)
+
+
+class Status(object):
+    """
+    Attributes:
+     - armed
+     - latitude
+     - longitude
+     - altitude
+     - datetime
+
+    """
+
+
+    def __init__(self, armed=None, latitude=None, longitude=None, altitude=None, datetime=None,):
+        self.armed = armed
+        self.latitude = latitude
+        self.longitude = longitude
+        self.altitude = altitude
+        self.datetime = datetime
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.BOOL:
+                    self.armed = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.DOUBLE:
+                    self.latitude = iprot.readDouble()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.DOUBLE:
+                    self.longitude = iprot.readDouble()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 4:
+                if ftype == TType.DOUBLE:
+                    self.altitude = iprot.readDouble()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 5:
+                if ftype == TType.STRING:
+                    self.datetime = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('Status')
+        if self.armed is not None:
+            oprot.writeFieldBegin('armed', TType.BOOL, 1)
+            oprot.writeBool(self.armed)
+            oprot.writeFieldEnd()
+        if self.latitude is not None:
+            oprot.writeFieldBegin('latitude', TType.DOUBLE, 2)
+            oprot.writeDouble(self.latitude)
+            oprot.writeFieldEnd()
+        if self.longitude is not None:
+            oprot.writeFieldBegin('longitude', TType.DOUBLE, 3)
+            oprot.writeDouble(self.longitude)
+            oprot.writeFieldEnd()
+        if self.altitude is not None:
+            oprot.writeFieldBegin('altitude', TType.DOUBLE, 4)
+            oprot.writeDouble(self.altitude)
+            oprot.writeFieldEnd()
+        if self.datetime is not None:
+            oprot.writeFieldBegin('datetime', TType.STRING, 5)
+            oprot.writeString(self.datetime.encode('utf-8') if sys.version_info[0] == 2 else self.datetime)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
 all_structs.append(Coordinate)
 Coordinate.thrift_spec = (
     None,  # 0
     (1, TType.DOUBLE, 'latitude', None, None, ),  # 1
     (2, TType.DOUBLE, 'longitude', None, None, ),  # 2
     (3, TType.DOUBLE, 'altitude', None, None, ),  # 3
+)
+all_structs.append(Status)
+Status.thrift_spec = (
+    None,  # 0
+    (1, TType.BOOL, 'armed', None, None, ),  # 1
+    (2, TType.DOUBLE, 'latitude', None, None, ),  # 2
+    (3, TType.DOUBLE, 'longitude', None, None, ),  # 3
+    (4, TType.DOUBLE, 'altitude', None, None, ),  # 4
+    (5, TType.STRING, 'datetime', 'UTF8', None, ),  # 5
 )
 fix_spec(all_structs)
 del all_structs

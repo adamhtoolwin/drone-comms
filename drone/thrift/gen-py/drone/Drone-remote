@@ -30,7 +30,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('  void clear_missions()')
     print('  void download_missions()')
     print('  void change_mode(string mode)')
-    print('  bool report_status(i32 drone_id)')
+    print('  Status report_status(i32 drone_id)')
     print('  void add_delivery_mission(double latitude, double longitude, double altitude)')
     print('  void arm()')
     print('  void disarm()')

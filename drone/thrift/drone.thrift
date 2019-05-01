@@ -13,6 +13,14 @@ struct Coordinate {
     3: double altitude,
 }
 
+struct Status {
+    1: bool armed,
+    2: double latitude,
+    3: double longitude,
+    4: double altitude,
+    5: string datetime,
+}
+
 service Drone{
     void takeoff(1:double altitude),
     
@@ -26,7 +34,7 @@ service Drone{
 
     void change_mode(1:string mode),
 
-    bool report_status(1:i32 drone_id),
+    Status report_status(1:i32 drone_id),
 
     void add_delivery_mission(1:double latitude, 2:double longitude, 3:double altitude),
 
