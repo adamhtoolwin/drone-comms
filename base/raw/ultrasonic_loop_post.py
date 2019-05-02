@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import time
 import requests
 
-while(true):
+while(True):
     try:
         GPIO.setmode(GPIO.BOARD)
 
