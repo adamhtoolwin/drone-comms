@@ -39,14 +39,14 @@ while(True):
             post_endpoint = "https://teamdronex.com/api/v1/available"
 
             available_data = {
-                "status": True
+                "status": False
             }
 
             available_data_post = requests.post(post_endpoint, data=available_data)
 
         else:
             available_data = {
-                "status": False
+                "status": True
             }
 
             available_data_post = requests.post(post_endpoint, data=available_data)
