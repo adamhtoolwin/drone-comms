@@ -8,7 +8,7 @@ parser.add_argument("--port", help="The port through which the client should con
 
 args = parser.parse_args()
 
-port = 8080
+port = 8081
 if args.port:
     port = args.port
 

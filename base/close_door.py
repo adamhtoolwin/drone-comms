@@ -7,7 +7,7 @@ parser.add_argument("--path", help="The complete path of the generated Thrift fi
 parser.add_argument("--port", help="The port through which the client should connect to the server. Default is 8080.")
 args = parser.parse_args()
 
-port = 8080
+port = 8081
 if args.port:
     port = args.port
 
