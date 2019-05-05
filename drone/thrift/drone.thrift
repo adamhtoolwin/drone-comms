@@ -47,4 +47,6 @@ service Drone{
     void check_status(),
 
     void add_farm_mission(1:list<Coordinate> coordinates),
+
+    void set_servo(1:i32 value)
 }

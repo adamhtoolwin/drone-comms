@@ -43,6 +43,7 @@ if args.drone_id:
     drone_id = int(args.drone_id)
 
 sys.path.append(path)
+sys.path.append(base_path)
 
 # sys.path.append('gen-py')
 
@@ -86,8 +87,24 @@ class DroneHandler:
             0, 0,    # target_system, target_component
             mavutil.mavlink.MAV_CMD_DO_SET_SERVO, #command
             0, #confirmation
+            5,    # param 1, 
+            1900,          # param 2, 
+            0,          # param 3, 
+            0, # param 4, 
+            0, 0, 0)    # param 5 ~ 7 not used
+            
+        # send command to vehicle
+        self.vehicle.send_mavlink(msg)
+    
+    def set_servo(self, value):
+        pwm = int(value)
+
+        msg = self.vehicle.message_factory.command_long_encode(
+            0, 0,    # target_system, target_component
+            mavutil.mavlink.MAV_CMD_DO_SET_SERVO, #command
+            0, #confirmation
             5,    # param 1, yaw in degrees
-            1900,          # param 2, yaw speed deg/s
+            pwm,          # param 2, yaw speed deg/s
             0,          # param 3, direction -1 ccw, 1 cw
             0, # param 4, relative offset 1, absolute angle 0
             0, 0, 0)    # param 5 ~ 7 not used

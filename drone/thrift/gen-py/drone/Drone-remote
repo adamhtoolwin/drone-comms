@@ -37,6 +37,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('  void disarm()')
     print('  void check_status()')
     print('  void add_farm_mission( coordinates)')
+    print('  void set_servo(i32 value)')
     print('')
     sys.exit(0)
 
@@ -193,6 +194,12 @@ elif cmd == 'add_farm_mission':
         print('add_farm_mission requires 1 args')
         sys.exit(1)
     pp.pprint(client.add_farm_mission(eval(args[0]),))
+
+elif cmd == 'set_servo':
+    if len(args) != 1:
+        print('set_servo requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.set_servo(eval(args[0]),))
 
 else:
     print('Unrecognized method %s' % cmd)
