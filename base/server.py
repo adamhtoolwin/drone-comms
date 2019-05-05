@@ -1,5 +1,6 @@
 import glob
 import sys
+import time
 
 sys.path.append('gen-py')
 
@@ -16,6 +17,8 @@ class BaseHandler:
         self.log = {}
 
         self.openDoor()
+
+        time.sleep()
 
         self.closeDoor()
     
