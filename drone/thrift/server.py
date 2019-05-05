@@ -103,10 +103,10 @@ class DroneHandler:
             0, 0,    # target_system, target_component
             mavutil.mavlink.MAV_CMD_DO_SET_SERVO, #command
             0, #confirmation
-            5,    # param 1, yaw in degrees
-            pwm,          # param 2, yaw speed deg/s
-            0,          # param 3, direction -1 ccw, 1 cw
-            0, # param 4, relative offset 1, absolute angle 0
+            5,    # param 1, 
+            pwm,          # param 2, 
+            0,          # param 3, 
+            0, # param 4, 
             0, 0, 0)    # param 5 ~ 7 not used
             
         # send command to vehicle
