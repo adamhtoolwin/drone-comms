@@ -12,7 +12,7 @@ port = 8081
 if args.port:
     port = args.port
 
-path = '/home/pi/drone-comms/base/gen-py'
+path = '/home/ubuntu/drone-comms/base/gen-py'
 if args.path:
     path = args.path
 
