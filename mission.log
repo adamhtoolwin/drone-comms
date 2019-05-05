@@ -1,0 +1,12 @@
+2019-05-05 22:41:25.802 INFO     Could not connect to ('127.0.0.1', 9090)
+Traceback (most recent call last):
+  File "/home/adam/.pyenv/versions/2.7.15/lib/python2.7/site-packages/thrift/transport/TSocket.py", line 104, in open
+    handle.connect(sockaddr)
+  File "/home/adam/.pyenv/versions/2.7.15/lib/python2.7/socket.py", line 228, in meth
+    return getattr(self._sock,name)(*args)
+error: [Errno 111] Connection refused
+2019-05-05 22:41:25.803 ERROR    Could not connect to any of [('127.0.0.1', 9090)]
+2019-05-05 22:41:26.817 DEBUG    Starting new HTTPS connection (1): teamdronex.com:443
+2019-05-05 22:41:27.643 DEBUG    https://teamdronex.com:443 "PATCH /api/v1/missions/456 HTTP/1.1" 404 34
+2019-05-05 22:41:27.654 DEBUG    Starting new HTTPS connection (1): teamdronex.com:443
+2019-05-05 22:41:27.913 DEBUG    https://teamdronex.com:443 "PATCH /api/v1/drone/2 HTTP/1.1" 204 0

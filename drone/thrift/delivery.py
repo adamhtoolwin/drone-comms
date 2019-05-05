@@ -129,6 +129,7 @@ def main():
     # client.fly_to(14.076550, 100.614012, 50)
 
     transport.close()
+    base_transport.close()
 
     print("Starting in flight status reports...")
     while(True):
