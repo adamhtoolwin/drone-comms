@@ -18,7 +18,7 @@ class BaseHandler:
 
         self.openDoor()
 
-        time.sleep()
+        time.sleep(2)
 
         self.closeDoor()
     
