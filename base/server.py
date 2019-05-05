@@ -57,7 +57,7 @@ class BaseHandler:
             #GPIO.cleanup()
             
         print("open")
-        forward(1.5)
+        forward(1.8)
         GPIO.cleanup()
 
     def closeDoor(self):
@@ -93,7 +93,7 @@ class BaseHandler:
             #GPIO.cleanup()
 
         print("close")
-        reverse(1.5)
+        reverse(1.8)
         GPIO.cleanup()
 
 
