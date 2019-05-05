@@ -4,7 +4,12 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--path", help="The complete path of the generated Thrift files. Default is /home/ubuntu/drone-comms/base/gen-py.")
+parser.add_argument("--port", help="The port through which the client should connect to the server. Default is 8080.")
 args = parser.parse_args()
+
+port = 8080
+if args.port:
+    port = args.port
 
 if args.path:
     path = args.path
@@ -25,7 +30,7 @@ from thrift.protocol import TBinaryProtocol
 
 def main():
     # Make socket
-    transport = TSocket.TSocket('localhost', 9091)
+    transport = TSocket.TSocket('localhost', port)
 
     # Buffering is critical. Raw sockets are very slow
     transport = TTransport.TBufferedTransport(transport)

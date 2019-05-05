@@ -50,6 +50,9 @@ sys.path.append(base_path)
 # Thrift imports
 from drone import Drone
 from drone.ttypes import Coordinate, Status
+from base import BaseDoor
+
+from thrift import Thrift
 
 from thrift.transport import TSocket
 from thrift.transport import TTransport
@@ -74,12 +77,6 @@ class DroneHandler:
         self.download_missions()
 
         time.sleep(2)
-
-        # self.fixed_home_location = {
-        #     "latitude": self.vehicle.home_location.lat,
-        #     "longitude": self.vehicle.home_location.lon,
-        # }
-        # print("First home location: {0},{1}".format(self.fixed_home_location["latitude"],self.fixed_home_location["longitude"]))
 
         self.report_status(drone_id)
 
@@ -111,7 +108,7 @@ class DroneHandler:
             
         # send command to vehicle
         self.vehicle.send_mavlink(msg)
-
+    
     def check_status(self):
         print("Arming...")
         if self.vehicle.armed == False:
