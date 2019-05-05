@@ -14,6 +14,10 @@ from thrift.server import TServer
 class BaseHandler:
     def __init__(self):
         self.log = {}
+
+        self.openDoor()
+
+        self.closeDoor()
     
     def openDoor(self):
         print("HELLO")
