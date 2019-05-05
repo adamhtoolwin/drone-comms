@@ -51,5 +51,6 @@ while(True):
 
             available_data_post = requests.post(post_endpoint, data=available_data)
 
+        time.sleep(5)
     finally:
         GPIO.cleanup()

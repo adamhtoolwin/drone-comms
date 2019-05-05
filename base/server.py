@@ -93,7 +93,7 @@ class BaseHandler:
 if __name__ == '__main__':
     handler = BaseHandler()
     processor = BaseDoor.Processor(handler)
-    transport = TSocket.TServerSocket(host='0.0.0.0', port=9090)
+    transport = TSocket.TServerSocket(host='0.0.0.0', port=8080)
     tfactory = TTransport.TBufferedTransportFactory()
     pfactory = TBinaryProtocol.TBinaryProtocolFactory()
 

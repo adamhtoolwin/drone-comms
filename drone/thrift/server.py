@@ -9,25 +9,34 @@ import datetime
 parser = argparse.ArgumentParser()
 parser.add_argument("connection", help="The connection type, address and port to be used to the Pixhawk")
 parser.add_argument("--port", help="The port at which the thrift socket is to be opened. Default is 9090.")
-parser.add_argument("--path", help="The complete path of the generated Thrift files. Default is /home/pi/drone-comms/base/gen-py.")
+parser.add_argument("--base_port", help="The port through which base server is to be connected. Default is 8081.")
+parser.add_argument("--path", help="The complete path of the generated drone Thrift files. Default is /home/pi/drone-comms/drone/gen-py.")
+parser.add_argument("--base_path", help="The complete path of the generated base Thrift files. Default is /home/pi/drone-comms/base/gen-py.")
 parser.add_argument("--user", help="The user profile name. This will be used in the path to the generated Thrift files. Default is pi.")
 parser.add_argument("--drone_id", help="The ID of the drone, default is 2 i.e. the real drone; put 1 for simulator")
 args = parser.parse_args()
 
+base_path = '/home/ubuntu/drone-comms/base/gen-py'
+if args.base_path:
+    base_path = args.base_path
+
+path = '/home/ubuntu/drone-comms/drone/thrift/gen-py'
 if args.path:
     path = args.path
-else:
-    path = '/home/ubuntu/drone-comms/drone/thrift/gen-py'
 
+user = "pi"
 if args.user:
     user = args.user
     path = '/home/{}/drone-comms/drone/thrift/gen-py'.format(user)
-else:
-    user = "ubuntu"
-
+    base_path = '/home/{}/drone-comms/base/gen-py'.format(user)
+  
 port = 9090
 if args.port:
     port = args.port
+
+base_port = 8081
+if args.base_port:
+    base_port = args.base_port
 
 drone_id = 2
 if args.drone_id:
