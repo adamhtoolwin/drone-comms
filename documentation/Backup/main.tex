@@ -1,0 +1,338 @@
+% EE Thesis/Dissertation
+% Please see http://ee.tamu.edu/~tex for information about EE Thesis.
+
+\documentclass[12pt, a4paper]{aitthesis}
+
+\usepackage{graphicx}
+\usepackage{latexsym}
+\usepackage{amssymb,amsthm,amsmath}
+%\usepackage{longtable,booktabs}
+\usepackage[notocbib]{apacite}
+\usepackage{verbatim}
+\usepackage{multirow}
+\newcommand{\oops}[1]{\bf{#1}}
+\newcommand{\ga}{\bar{\gamma}}
+\newcommand{\myint}{\int_0^{\infty}}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{cancel}
+\usepackage{times}
+\usepackage{caption}
+\renewcommand{\bibliographytypesize}{\normalsize}
+
+\captionsetup{font=normalsize,labelsep=space}
+
+% Use this for subfigures
+%\usepackage[caption=false,font=footnotesize]{subfig}
+
+\usepackage{placeins}
+
+%%%%%%%%%%%
+% Process only the files in backets. ie title page and chapter 1 {title, ch1}
+%     Be sure to remove the % before \includeonly to use this feature.
+
+%\includeonly{title,ch1}
+
+%%%%%%%%%%%
+% Type of document.
+% Keep only one of the next four lines.
+
+%\renewcommand{\type}{Dissertation Proposal}
+%\renewcommand{\type}{Dissertation}
+%\renewcommand{\type}{Thesis Proposal}
+%\renewcommand{\type}{Thesis}
+
+%%%%%%%%%%%
+% Type of degree.
+% Keep only one of the next two lines.
+
+%\renewcommand{\degree}{Doctor of Engineering}  % For dissertation
+%\renewcommand{\degree}{Master of Engineering}   % For thesis
+
+%%%%%%%%%%%
+% Department
+% Change the department if not in ELEN
+
+%\renewcommand{\major}{Electrical Engineering}  % Change if you are not in ELEN
+
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+\newcommand{\mat}[1]{\mathtt{#1}}
+\newcommand{\ten}[1]{\mathcal{#1}}
+\newcommand{\crossmat}[1]{\begin{bmatrix} #1 \end{bmatrix}_{\times}}
+\newcommand{\class}[1]{{\cal C}_{#1}}
+\def\Rset{\mathbb{R}}
+\def\Pset{\mathbb{P}}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\sign}{sign}
+\def\norm{\mbox{$\cal{N}$}}
+
+\newcommand\parms{\vec{\lambda}}
+\newcommand\oldparms{\parms^{\text{old}}}
+
+\begin{document}
+
+
+\pagenumbering{roman}
+\pagestyle{plain}
+\include{frontmatter}
+\pagenumbering{arabic}
+\normalsize
+
+
+%\include{ch1}
+%======================= Chapter1 =======================
+\chapter{Introduction} \label{introduction}
+
+\section{Background} 
+Technology is improved by human civilization every year. By now, humanity has invented great technologies and integrated new techonology into social life to make life better. Unmanned aerial vehicles (UAVs) have begun to emerge in the 21st century. Multicopters, in particular, are one common form at UAV that is mechanically simpler than ordinary helicopters and more agile than fixed using aircraft. Multicopters are being tested in security, military, surveillance systems and remote sensing systems.
+
+Nowadays, multicopters have improved control engineering enabling new techonology with stability automatically. Moreover, sensors and cameras can be installed on multicopters for data collection. Multicopter projects are also low cost for student research. Modern open source hardware and software has led to great projects such as PIXHAWK and PX4. 
+
+Multicopters can collect data same as GIS in more detail than traditional RS method. Due to their versatility and remote control, multicopters are good for student research or small group projects, as them  can be implemented to work with camera sensors, object tracking and perform autonomous flight. 
+
+In exploration, there are a various places where human intervention is impossible, very risky or very tedious. In order to solve these problems, the process of collecting data and generating data to 3D model over time. However, using manpower to collect these data is also tedious or reisky. Hence, UAVs should be able to do this work with sensors such as cameras to collect data.  
+
+
+
+\section{Problem Statement}
+Computer vision can enable computer systems to understand scenes by transmission input data from digital images into structural models. Computer vision software is a translator processes, analyses and understands data. Autonomous control as provided by comment autopilots is rather practice such as able to see belong direction by getting close to object, GPS denied outdoor and in door situation with localization blind. Moreover, during flight duty in bad weather or terrain that has many trees will cause loss transmission data.      
+
+Nowadays, open source software for monocular visual odometry and methods for localization using 2D tags have impressive performance. This capstone project will focus on developing an altitude control system for the PIXHAWK running the PX4 flights stack using 2D Tags and visual odometry to build 3D models from camera input in clear weather.
+
+
+\section{Objectives}
+The main objective of this capstone project is to develop an altitude control algorithm for the multicopter that uses monocular visual odometry. The images will be take by cameras mounted on the multicopter. To achieve this objective, I will perform the following specific steps:
+\begin{enumerate}
+	\item Build a multicopter with a camera and onboard computer.
+	\item Capture video of scenes under a drone as if changes altitude with respect the terrain. 
+	\item Use monocular visual odometry to create a 3D point cloud of the local scene.
+	\item Develop a module using SVO is outputto control altitude during flight based on result of 3D point cloud analysis. 
+\end{enumerate}
+
+\section{Limitations and Scope}
+The scope of this study are:
+\begin{enumerate}
+	\item I assume the scene is static.
+	\item I assume clear weather and good conditions.
+	\item I assume flight time about 10 to 20 minutes is satisfying.
+	\item I assume that the goal is to maintain a cross landing altitude with respect to to the terrain which following a pre-planned mapping route.
+\end{enumerate}
+
+\section{Proposal Outline}
+\begin{description}
+	\item In Chapter~\ref{literature}, I provide a literature review. 
+	\item In Chapter~\ref{methodology}, I propose my methodology.
+	\item In Chapter~\ref{planning}, I provide a time line for the rest of my project.
+\end{description}
+
+\FloatBarrier
+
+%\include{ch2}
+%======================= Chapter2 =======================
+\chapter{Literature Review} \label{literature}
+
+\section{Overview of multicopter}
+A multicopter is an aerial vehicle using at least two rotors to lift and control it ~\shortcite{ar-drone}. The rotors should has fixed-pitch blades. Controlling rotational speed of each rotors is key to lifting and controlling the multicopter. Nowadays, there are many styles of multicopter depending on the number of rotors desgin on it. Multicopters can be run by remote control by human or perform auto navigation by setting from computer on the UAV. Overall, multicopter is a set of rotors, a battery, a radio receiver, a structural design, and a controller. For example, a multicopter structure design with four rotors shown in \figurename~\ref{fig:ardone}. 
+
+\begin{figure}[t]
+\begin{center}
+	\includegraphics[width=5.0in]{figures/MultiCopter.jpg}
+	\caption[MultiCopter Desgin]{A MultiCopter Desgin with 4 quad-rotor.} \label{fig:ardone}
+\end{center}
+\end{figure}
+
+\FloatBarrier
+
+\section{Overview of vision based autonomous landing of  unmanned aerial vehicles}
+Autonomous flight is a special ability of a multicopter to take off and land vertically, hover in the air, perform  longitudinal and lateral flight, and drop and receive objects in impossible places\shortcite{ar-drone1}. For a multicopter to work successfully, autonomous landing is a important capacity. Computer vision has been help implemented landing techniques for auto control of helicopters~\shortcite{ar-drone2}. However, ~\shortciteA{ar-drone3} said that helicopter landing has problems in poor weather.
+\section{Visual odometry}
+\subsection{PTAM}
+
+Parallel tracking and mapping (PTAM) method using for run tracking and mapping. If tracking is separated with mapping, the performance of two processes will increase~\shortcite{ar-drone6}. Since, two processes are performance separate, every single video frame for mapping is not important. Using keyframe while process PTAM will save wasting computational resources on  refiltering same data frame. Camera pose estimation is using for the tracking thread. Mapping thread is using for generating the map. Collecting initial keyframe and feature correspondences require user have to translate the camera slightly while map initialization. Because of the limitation of hardware, adjustment software will not optimize the map which has more than 100 keyframes. 
+
+\subsection{ SVO}
+\subsubsection{Notation}
+
+Semi-direct Visual Odometry (SVO) is a method for collection data and update environment maps while multicopter navigating. SVO aims to concurrently localize the multicopter’s position in flight area and generate the map while multicopter flight control by controller. According to~\shortciteA{ar-drone4}, the goal of SVO is tracking many feature, parallel tracking and mapping, key frame selection with high accuracy and speed while multicopter doing duty. The intensity at time k denoted as $I_{k}: \Omega \subset \mathbb{R}^{2} \to \mathbb{R}$ where $\Omega$ is the domain image. 3D space space consists of a
+position $p= (x, y, z)^{T} \in S$, where S is visible surface $\subset \mathbb{R}^{3}$. The camera projection model $\pi: \mathbb{R}^{3} \to \mathbb{R}^{2}$ expressed as 
+\[
+    \pi(_{k}p)
+\]
+
+Where the camera frame shown reference k as point coordinates. The intrinsic camera parameters is denoted as $\pi$. The 3D point corresponding to an image denoted as u can be recovered by the inverse projection function $\pi^{-1}$ and the depth $d_{u} \in \mathnormal{R}$ shown belown 
+\[
+    kp = \pi ^{-1} (u,d_{u})
+\]
+
+
+\subsubsection{Motion}
+
+
+$T_{k,k-1}$ denoted for the maximum likelihood estimate of the rigid body transformation between two cameras minimizes the negative of the intensity residuals show below
+\[
+    T_{k,k-1} = \operatorname*{argmin}_T  \iint_{\overline{\mathcal{R}}} p[\delta I(T,u)] \mathrm d u
+\]
+
+The intensity $\delta$I denoted as different between pixels observing in the same 3D point. However, it can be computed by 2D point u from $I_{k-1}$ and afterwards projecting it in to the camera show as below
+\[
+    \delta I(T,u) = I_{k} (\pi(T \cdot \pi^{-1}(u,d_{u}))) - I_{k-1}(u)\forall u \in \overline{\mathcal{R}}
+\]
+
+$\overline{\mathcal{R}}$ denoted for image region. The depth $d_{u}$ in time k-1 that computed back projected point show below
+\[
+    \overline{\mathcal{R}} = u\mid u \in \mathcal{R}_{k-1} \land \pi (T \cdot \pi^{-1}(u,d_{u})) \in \Omega_{k} 
+\]
+
+\begin{figure}[h]
+\begin{center}
+	\includegraphics[width=5.0in]{figures/1.png}
+	\caption[Changing The Relative Pose]{Changing $T_{k,k-1}$.} \label{fig:timeline}
+\end{center}
+\end{figure}
+\FloatBarrier
+SVO methods have been development to improve their versatility by minimizing errors and calculator costs. Recently, SVO methods are available as open source software.
+
+\section{PIXHAWK}
+
+The PIXHAWK is a hardware design for capable of autonomous flight using onboard processing for computer vision. It will performance better with small system design than large system design for autonomous flight\shortcite{ar-drone7}. Recently, PIXHAWK is an open-source research platform which enables for full onboard processing on a micro air vehicle. The system design can only install limited number of cameras. Cameras can be generated from the onboard inertial measurement unit and computer vision allows to extract 3D geometry of the terrain. Trigger system also supports monocular that use camera can receive IMU data and process it. Due to 3D algorithm, geometric relation can use for calculate IMU roll and pitch shown in \figurename~\ref{fig:ardrone5}. 
+
+\begin{figure}[t]
+\begin{center}
+	\includegraphics[width=5.0in]{figures/123.png}
+	\caption[Relation of gravity vector and camera angles]{Relation of gravity vector and camera angles from \shortciteA{ar-drone7}.} \label{fig:ardrone5}
+\end{center}
+\end{figure}
+\FloatBarrier
+The \figurename~\ref{fig:ardrone1} shown PIXHAW autopilot.
+\begin{figure}[t]
+\begin{center}
+	\includegraphics[width=5.0in]{figures/45.jpg}
+	\caption[PIXHAWK autopilot]{PIXHAWK autopilot.} \label{fig:ardrone1}
+\end{center}
+\end{figure}
+
+
+\FloatBarrier
+
+
+
+\section{Point Cloud}
+
+Point clouds are useful in a multitude of 3D applications. Moreover, any points in a point cloud are determined by three-dimensional coordinate system. The external surfaces of an object in 3D applications have been represented by a point cloud.
+
+\FloatBarrier
+%\include{ch3}
+%======================= Chapter1 =======================
+\chapter{Methodology} \label{methodology}
+
+\section{System Overview}
+I will use SVO to collect data and generate 3D point cloud of a scope while navigating in AIT area. The application will utilize OpenCV to generate a 3D point cloud from live video collect by a multicopter. Subsets of the 3D point cloud that represent objects will be identified to enable changing attitude and measured height and enable flight a fixed high above the terrain. The obtained result will be checked with manual measurement. The goal of developing this application is achieve estimate error from manual measurement. A overview system show in \figurename~\ref{fig:ardrone2} below.
+
+
+
+\begin{figure}[t]
+\begin{center}
+	\includegraphics[width=5.0in]{figures/design.png}
+	\caption[System design]{System design.} \label{fig:ardrone2}
+\end{center}
+\end{figure}
+
+\FloatBarrier
+
+\subsection{Hardware}
+The multicopter has a flight time of 10 to 20 minutes. A monocular camera running at 30 1280 by 720 frames per second is installed on the multicopter. Video captured by the camera on multicopter will be analyzed by the onboard Odroid XU4 computer.  
+
+\subsection{Sotfware}
+
+The application will be developed based on OpenCV, SVO, the point cloud library (PCL) and PX4. The software will record video sequences, a camera calibration file and flight information will be control by controller. 
+\subsubsection{PX4}
+
+PX4 is an open source for a node-based multicopter. It can do attitude control and present it on micro controller and Linux.  
+
+
+\subsubsection{OpenCV}
+
+OpenCV is an open source for computer vision and machine learning. It can do image processing, computer vision, and machine learning applications such as face recognition, 3D model generation from images, and 3D point cloud production from a camera. Recently, open source SVO have been develop using OpenCV
+
+
+\subsubsection{Point Cloud Library (PCL)}
+
+The point cloud library is also an open source for point cloud processing. PCL consist of feature estimation, model fitting, and point cloud segmentation. Point cloud library have been become common software to used in robotics and 3D reconstruction applications.
+
+
+
+\section{System Design}
+The camera is the sole data source for SVO methods. The cameras that are installed on the multicopter must be calibrated using OpenCV camera calibration sotfware. 
+
+\section{Result Evaluation }
+
+\figurename~\ref{fig:ardrone3} shown the experiment i will perform with multicopter to collect data with same height denoted by h. Height measurements obtained from the application after flight will be evaluated against the results measured from \tablename~\ref{fig:ardrone4} with manual calculation.
+ 
+\begin{figure}[h]
+\begin{center}
+	\includegraphics[width=5.0in]{figures/test.png}
+	\caption[Side view]{Side view.} \label{fig:ardrone3}
+\end{center}
+\end{figure}
+
+
+
+
+\FloatBarrier
+ \begin{table}[t]
+\begin{center}
+	\includegraphics[width=5.0in]{figures/23.png}
+	\caption[Data sheet]{This data sheet will measurement height while changing altitude.} \label{fig:ardrone4}
+\end{center}
+\end{table}
+\FloatBarrier
+
+
+
+%\include{ch5}
+%======================= Chapter5 =======================
+\chapter{Work Plan} \label{planning}
+
+
+\section{Planning}
+This work plan for my caption project is shown below
+
+
+\begin{table}[h]
+\begin{center}
+	\includegraphics[width=5.0in]{figures/234.png}
+	\caption[Proposed time line]{Proposed time line.} \label{fig:timeline}
+\end{center}
+\end{table}
+
+\FloatBarrier
+
+\addcontentsline{toc}{chapter}{ \hskip 4em References}
+\bibliographystyle{apacite} % "plain" or "unsrt", "alpha", "abbrv", etc.
+\bibliography{references}	% use data in file "references.bib"
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                 %
+%                            APPENDICES                           %
+%                                                                 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage\pagestyle{plain}
+\theappendix
+\addcontentsline{toc}{chapter}{ \hskip 4em Appendixes}
+%\include{append1}
+%add appendices if any
+\end{document}
+
+%This template was merged from following templates
+%
+%AIT master thesis template
+%http://203.159.12.32:8082/AIT/education/LanguageCenter/ait-writing-services/Master%20Thesis%20Sample.docx/view
+%
+%Kan Ouivirach
+%http://www.cs.ait.ac.th/~zkan/weblog/?page_id=4
+%
+%Sucha Supittayapornpong
+%http://suchaxplore.blogspot.com/2008/10/ait-latex-template.html

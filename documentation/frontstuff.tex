@@ -1,0 +1,135 @@
+%==========================================================
+%======================  FRONT STUFF ======================
+%==========================================================
+
+%======================= Cover Page =======================
+%\begin{document}
+\newpage
+\pagestyle{plain}
+\pagenumbering{roman}
+\setcounter{page}{1}
+\addcontentsline{toc}{section}{Title Page}
+%\setlength{\footskip}{-15mm}
+\setlength{\textheight}{230mm}
+\setlength{\voffset}{10mm}
+\vskip -5em
+\thispagestyle{empty}
+\begin{center}
+{ 
+  \singlespace \large{\bf Communication Between Web Applications and MAVLink-enabled UAVs} \par
+}
+\vskip 2em
+{
+  \lineskip 1.5em
+  \begin{tabular}[t]{c} by\\ \\ Htoo Lwin
+  \end{tabular}\par
+}
+%\vskip 5.6em
+
+\vskip 3.5em
+\singlespace A capstone project proposal submitted in partial fulfillment of the
+requirements for\\the degree of Bachelor of Science in Engineering\\ 
+Information and Communication Technology
+
+%	\vskip 5em
+\vskip 0.5em
+{
+  \singlespace
+  \begin{center}
+    \begin{tabular}{rl}
+      \\\\\\[-1em]
+      Examination Committee: & Prof.\ Matthew Dailey (Chairperson) \\[-0.8em]
+                             & Dr.\ Chutiporn Anutariya\\\\\\\\
+
+% UNCOMMENT THE LINES BELOW IF YOU HAVE THE EXTERNAL EXAMINER.
+%      External Examiner:     & Prof.\ YOUR EXTERNAL EXAMINER \\[-0.8em]
+%                             & Dept.\ of Electrical and Computer Engineering \\[-0.8em]
+%                             & McGill University, Canada \\\\
+		
+      Nationality:     & Myanmar \\\\[-0.8em]
+    \end{tabular}
+  \end{center}
+
+  \vskip 3.0em
+  \centerline{}
+  \vskip 2em
+}
+\end{center}
+\begin{center}
+  \singlespace Asian Institute of Technology\\ School of Engineering
+                  and Technology\\ Thailand\\ May 2019
+\end{center}
+\vfill
+
+% ====================== ACKNOWLEDGEMENTS ======================
+\newpage
+\pagestyle{plain}
+\addcontentsline{toc}{section}{Acknowledgments}
+\onecolumn % Single-column.
+\if@twoside\else\raggedbottom\fi % Ragged bottom unless twoside option.
+\setlength{\footskip}{8mm}
+\begin{center}
+{
+  \large \bf Acknowledgments\\ \vskip 1em
+}
+% \vskip 1em
+\end{center}
+\singlespace
+\doublespace
+\hspace{8.5mm}
+\vspace{-1em}
+
+Firstly, I would like to thank my advisor and chairperson, Professor Matthew Dailey, for his constant guidance and advice through the course of this project and through the course of my study here at AIT as well. I am also very grateful to have Dr.Chutiporn Anutariya as my co-chair and her recommendations and comments.
+
+Last but not least, I would not have been able to complete this study without the cooperation of my fellow teammates as this was, first and foremost, a group project.
+
+%====================== ABSTRACT ======================
+\newpage
+\pagestyle{plain}
+\addcontentsline{toc}{section}{Abstract}
+\onecolumn % Single-column.
+\if@twoside\else\raggedbottom\fi % Ragged bottom unless twoside option.
+
+\setlength{\footskip}{8mm}
+
+\begin{center}
+{\large \bf Abstract \\ \vskip 1em}
+% \vskip 1em
+\end{center}
+\singlespace
+\doublespace
+\hspace{8.5mm}
+\vspace{-1em}
+
+Unmanned aerial vehicles, such as quadcopters, are becoming an increasingly important part of society and the economy as well. This implies a need for more user-friendly and automated UAV control system. UAVs require a ground control station (GCS) for command and control. This GCS normally communicates with the UAV's flight controller using MAVLink protocol messages via a serial or wireless connection, sending these messages directly to the flight controller onboard the UAV. However, this approach is impossible for a web-based GCS, due to the complicated nature of the Internet. Moreover, flight controllers, by default, do not offer Internet connectivity. Therefore, a customized communication mechanism between a GCS and drone is necessary to help facilitate efficient control. This paper proposes such a means and utilizes secure shell (SSH) port forwarding combined with a remote-procedure-call (RPC) framework to send mission parameters and telemetry to and from a micro-computer onboard the UAV. The micro-computer then handles the sending and receiving of MAVLink messages to and from the flight controller.  This paper is part of a larger study to propose a fully automated UAV command and control interface as a web application.
+
+\setlength{\parskip}{0pt} 
+%======================= Table of Contents =========================
+\newpage
+\addcontentsline{toc}{section}{Table of Contents}
+\tableofcontents
+
+% Page 2 begins
+
+%===================== List of Figures ======================
+\newpage
+\addcontentsline{toc}{section}{List of Figures}
+\listoffigures
+
+%\clearpage     % \clearpage ends the page, and also dumps out all floats.
+%\end{document} % Floats are things like tables and figures.
+
+%\clearpage     % \clearpage ends the page, and also dumps out all floats.
+
+%===================== List of Tables ======================
+\newpage
+\addcontentsline{toc}{section}{List of Tables}
+\listoftables
+
+%\clearpage     % \clearpage ends the page, and also dumps out all floats.
+%\end{document} % Floats are things like tables and figures.
+
+\clearpage     % \clearpage ends the page, and also dumps out all floats.
+
+\setlength{\parskip}{12pt}
+
